@@ -1,0 +1,384 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{84C583F8-F6A3-47F6-AC66-96D022E29F79}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AttendanceRecord</RootNamespace>
+    <AssemblyName>AttendanceRecord</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>8</ApplicationRevision>
+    <ApplicationVersion>1.0.1.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <LangVersion>8.0</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <LangVersion>8.0</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>apps.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>AttendanceRecord.Program</StartupObject>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Oracle.DataAccess, Version=2.102.2.20, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\oracle\product\10.2.0\client_1\ODP.NET\bin\2.x\Oracle.DataAccess.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include=".Designer - 复制 - 复制.cs">
+      <DependentUpon>FrmRestDay_Backup.cs</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include=".Designer - 复制.cs">
+      <DependentUpon>FrmTheDaysOfOvertime.cs</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Action\ActionHandler.cs" />
+    <Compile Include="Action\ARActionHelper.cs" />
+    <Compile Include="Entities\ARResult.cs" />
+    <Compile Include="Entities\ARSummaryFinal.cs" />
+    <Compile Include="Entities\AR_Sheet_Info.cs" />
+    <Compile Include="Entities\AR_Temp.cs" />
+    <Compile Include="Entities\AttendanceR.cs" />
+    <Compile Include="Entities\AttendanceRecordDetail.cs" />
+    <Compile Include="Entities\CheckUsers.cs" />
+    <Compile Include="Entities\Learning.cs" />
+    <Compile Include="Entities\MESSAGES.cs" />
+    <Compile Include="Entities\OverTimeOfRestDay.cs" />
+    <Compile Include="Entities\SimpleARInfo.cs" />
+    <Compile Include="Entities\TheDaysOfOvertime.cs" />
+    <Compile Include="Entities\User_Info.cs" />
+    <Compile Include="Entities\V_AR_DETAIL.cs" />
+    <Compile Include="Entities\V_AR_RESULT.cs" />
+    <Compile Include="Entities\V_FillUp.cs" />
+    <Compile Include="Entities\V_I_W_S.cs" />
+    <Compile Include="Entities\V_Work_Schedule.cs" />
+    <Compile Include="Entities\V_W_S.cs" />
+    <Compile Include="Entities\WorkSummary.cs" />
+    <Compile Include="FormLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormLogin.Designer.cs">
+      <DependentUpon>FormLogin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmAnalyzeAR_ALittleFaster.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmAnalyzeAR_ALittleFaster.Designer.cs">
+      <DependentUpon>FrmAnalyzeAR_ALittleFaster.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmImportAR.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmImportAR.Designer.cs">
+      <DependentUpon>FrmImportAR.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmLearning.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmLearning.Designer.cs">
+      <DependentUpon>FrmLearning.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmFillUpTheARRecord.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmFillUpTheARRecord.Designer.cs">
+      <DependentUpon>FrmFillUpTheARRecord.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmPrompt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmPrompt.Designer.cs">
+      <DependentUpon>FrmPrompt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmRestDay_Backup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmTheDaysOfOvertime.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmAnalyzeAR.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include=".Designer.cs">
+      <DependentUpon>FrmAnalyzeAR.cs</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmQueryARByRange.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmQueryARByRange.Designer.cs">
+      <DependentUpon>FrmQueryARByRange.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmGenerateARSummary.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmGenerateARSummary.Designer.cs">
+      <DependentUpon>FrmGenerateARSummary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmMainOfAttendanceRecord.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmMainOfAttendanceRecord.Designer.cs">
+      <DependentUpon>FrmMainOfAttendanceRecord.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmAskForLeave.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmAskForLeave.Designer.cs">
+      <DependentUpon>FrmAskForLeave.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmRestDay_justConfiguration.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmRestDay_justConfiguration.Designer.cs">
+      <DependentUpon>FrmRestDay_justConfiguration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Frm_Upload_AR.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm_Upload_AR.Designer.cs">
+      <DependentUpon>Frm_Upload_AR.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GetARSummary\GetARSummary.cs" />
+    <Compile Include="Helper\7SWED.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Helper\7SWED.Designer.cs">
+      <DependentUpon>7SWED.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Helper\AttendanceTimeHelper.cs" />
+    <Compile Include="Program - 复制.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="View\V_ActualAttendanceDays.cs" />
+    <Compile Include="Helper\ASK_For_Leave_Helper.cs" />
+    <Compile Include="Helper\AttendanceRHelper.cs" />
+    <Compile Include="Helper\Have_A_Rest_Helper.cs" />
+    <Compile Include="Helper\nameHelper.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="View\V_AR.cs" />
+    <Compile Include="View\V_AttendanceRecord.cs" />
+    <Compile Include="View\V_Come_Late.cs" />
+    <Compile Include="View\V_Delay_Time.cs" />
+    <Compile Include="View\V_Dinner_Subsidy.cs" />
+    <Compile Include="View\V_Leave_Early.cs" />
+    <Compile Include="View\V_Not_Finger_Print.cs" />
+    <Compile Include="View\V_AR_Time_Helper.cs" />
+    <Compile Include="View\V_Staff.cs" />
+    <Compile Include="View\V_Summary_OF_AR.cs" />
+    <Compile Include="View\V_Vacation.cs" />
+    <EmbeddedResource Include="FormLogin.resx">
+      <DependentUpon>FormLogin.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmAnalyzeAR_ALittleFaster.resx">
+      <DependentUpon>FrmAnalyzeAR_ALittleFaster.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmImportAR.resx">
+      <DependentUpon>FrmImportAR.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmLearning.resx">
+      <DependentUpon>FrmLearning.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmFillUpTheARRecord.resx">
+      <DependentUpon>FrmFillUpTheARRecord.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmPrompt.resx">
+      <DependentUpon>FrmPrompt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmRestDay_Backup.resx">
+      <DependentUpon>FrmRestDay_Backup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmTheDaysOfOvertime.resx">
+      <DependentUpon>FrmTheDaysOfOvertime.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmAnalyzeAR.resx">
+      <DependentUpon>FrmAnalyzeAR.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmQueryARByRange.resx">
+      <DependentUpon>FrmQueryARByRange.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmGenerateARSummary.resx">
+      <DependentUpon>FrmGenerateARSummary.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmMainOfAttendanceRecord.resx">
+      <DependentUpon>FrmMainOfAttendanceRecord.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmAskForLeave.resx">
+      <DependentUpon>FrmAskForLeave.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmRestDay_justConfiguration.resx">
+      <DependentUpon>FrmRestDay_justConfiguration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm_Upload_AR.resx">
+      <DependentUpon>Frm_Upload_AR.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Document\AttendanceRecord.doc" />
+    <None Include="Document\AttendanceRecord_english.doc" />
+    <None Include="flexflow.cfg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Microsoft.Office.Core">
+      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>4</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Microsoft.Office.Interop.Excel">
+      <Guid>{00020813-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>6</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="VBIDE">
+      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="apps.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="BaseDao.csproj" />
+    <Content Include="blank.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Document\AttendanceRecord_english.txt" />
+    <Content Include="public_dll\Excel.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public_dll\Tools.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\apps.ico" />
+    <Content Include="Resources\blank.ico" />
+    <Content Include="uncertainRecord\readme.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="version.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="个人考勤记录\readme.txt.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="考勤汇总\readme.txt.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="考勤记录\readme.txt.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Excel\Excel\Excel.csproj">
+      <Project>{b6115b10-3712-4534-8124-0027f28a5c8e}</Project>
+      <Name>Excel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Tools-master\Tools\Tools.csproj">
+      <Project>{f6a0dc14-7c22-4ab6-91c9-c5f7a9f90ca8}</Project>
+      <Name>Tools</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

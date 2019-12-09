@@ -1,0 +1,41 @@
+    //先设置颜色.
+                            if ("0".Equals(dt.Rows[k]["FLAG"].ToString()))
+                            {
+                                if ("1".Equals(dt.Rows[k]["COME_LATE_NUM"].ToString())) //迟到
+                                {
+                                    //先计算单元格已有字符长度。
+                                    length = ((Range)wSheet.Cells[6 + i * 2, j]).FormulaR1C1.ToString().Length;
+                                    //迟到
+                                    tempStr = dt.Rows[k]["TIME"].ToString() + (k < dt.Rows.Count - 1 ? "\r\n" : "");
+                                    ((Range)wSheet.Cells[6 + i * 2, j]).FormulaR1C1 = ((Range)wSheet.Cells[6 + i * 2, j]).FormulaR1C1 + tempStr;
+                                    ((Range)wSheet.Cells[6 + i * 2, j]).Characters[length + 1, 5].Font.Color = -16776961;
+                                    continue;
+                                }
+                                if ("1".Equals(dt.Rows[k]["LEAVE_EARLY_NUM"].ToString()))
+                                {
+                                    //先计算单元格已有字符长度。
+                                    length = ((Range)wSheet.Cells[6 + i * 2, j]).FormulaR1C1.ToString().Length;
+                                    //早退
+                                    tempStr = dt.Rows[k]["TIME"].ToString() + (k < dt.Rows.Count - 1 ? "\r\n" : "");
+                                    ((Range)wSheet.Cells[6 + i * 2, j]).FormulaR1C1 = ((Range)wSheet.Cells[6 + i * 2, j]).FormulaR1C1 + tempStr;
+                                    //写完即改变前景色。
+                                    ((Range)wSheet.Cells[6 + i * 2, j]).Characters[length + 1, 5].Font.Color = -16776961;
+                                    continue;
+                                }
+                                //先计算单元格已有字符长度。
+                                length = ((Range)wSheet.Cells[6 + i * 2, j]).FormulaR1C1.ToString().Length;
+                                //正常
+                                //正常上班点.
+                                tempStr = dt.Rows[k]["TIME"].ToString() + (k < dt.Rows.Count - 1 ? "\r\n" : "");
+                                ((Range)wSheet.Cells[6 + i * 2, j]).FormulaR1C1 = ((Range)wSheet.Cells[6 + i * 2, j]).FormulaR1C1 + tempStr;
+                                ((Range)wSheet.Cells[6 + i * 2, j]).Characters[length + 1, 5].Font.Color = System.Drawing.Color.FromArgb(0, 0, 0).ToArgb();
+                                continue;
+                            }
+                            //先计算单元格已有字符长度。
+                            length = ((Range)wSheet.Cells[6 + i * 2, j]).FormulaR1C1.ToString().Length;
+                            //请假点。
+                            tempStr = "<" + dt.Rows[k]["TIME"].ToString() + ">" + (k < (dt.Rows.Count - 1) ? "\r\n" : "");
+                            ((Range)wSheet.Cells[6 + i * 2, j]).FormulaR1C1 = ((Range)wSheet.Cells[6 + i * 2, j]).FormulaR1C1 + tempStr;
+                            //((Range)wSheet.Cells[6 + i * 2, j]).Characters[length + 1, 5].Font.Bold = true;
+                            //((Range)wSheet.Cells[6 + i * 2, j]).Characters[length + 1, 5].Font.ThemeColor = XlThemeColor.xlThemeColorDark1;
+                            //((Range)wSheet.Cells[6 + i * 2, j]).Characters[length + 1, 5].Font.Color = -16776961;
