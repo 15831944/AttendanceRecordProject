@@ -221,6 +221,7 @@ namespace Excel
                 return 0;
             }
             _HwndOfApp = _app.Hwnd;
+            AppManagement.add(_HwndOfApp);
             return _app.Hwnd;
         }
         /// <summary>
@@ -351,6 +352,12 @@ namespace Excel
             if (null == WBook) {
                 open();
             }
+            if (WBook.Sheets.Count <=1) {
+                //新增一个Sheet2.
+                WBook.Sheets.Add(Type.Missing, WBook.Sheets[1]);
+            }
+            // Sheets("Sheet3").Select;
+            //ActiveWindow.SelectedSheets.Delete
             Worksheet wS = ((Worksheet)(WBook.Sheets[2]));
             _secondWS = wS;
             return wS;
@@ -359,11 +366,15 @@ namespace Excel
             if (null == WBook) {
                 open();
             }
+            if (WBook.Sheets.Count <= 2)
+            {
+                WBook.Sheets.Add(Type.Missing, WBook.Sheets[2]);
+            }
             Worksheet wS = ((Worksheet)(WBook.Sheets[3]));
             _thirdWS = wS;
             return wS;
         }
-        /// <summary>
+         /// <summary>
         /// 返回 可以看见的Worksheet List
         /// </summary>
         /// <returns></returns>

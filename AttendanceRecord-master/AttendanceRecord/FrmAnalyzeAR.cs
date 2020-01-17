@@ -36,36 +36,10 @@ namespace AttendanceRecord
             cb_Attendance_Machine.DataSource = null;
             YearAndMonthStr = e.Start.ToString("yyyy-MM");
             #region 获取该日期下的考勤机编号
-            /*string sqlStr = string.Format(@"
-                                              select * 
-                                              from 
-                                              (
-                                                select distinct(to_char(substr(job_number,1,1))) attendance_machine_no
-                                                from Attendance_Record
-                                                where trunc(fingerprint_date,'MM') = to_date('{0}','yyyy-MM')  
-                                                union
-                                                select  wm_concat(distinct(to_char(substr(job_number,1,1))))        
-                                                from Attendance_Record
-                                                where trunc(fingerprint_date,'MM') = to_date('{0}','yyyy-MM')  
-                                              ) temp
-                                              order by  length( attendance_machine_no) desc,
-                                               attendance_machine_no asc
-                                              ",YearAndMonthStr);*/
-
-            /*
-             * string sqlStr = string.Format(@"SELECT SUBSTR(SYS_CONNECT_BY_PATH(AR_Machine_Flag,','),2) AR_Machine_Flag
-                                                FROM (
-                                                     SELECT DISTINCT SUBSTR(job_number,1,1) AR_Machine_Flag
-                                                     FROM Attendance_Record 
-                                                     WHERE TRUNC(fingerprint_date,'MM') = TO_DATE('{0}','yyyy-MM')    
-                                                )TEMP
-                                                CONNECT BY AR_Machine_Flag > PRIOR AR_Machine_Flag 
-                                                ORDER BY LENGTH(AR_Machine_Flag) DESC,AR_Machine_Flag ASC", YearAndMonthStr);
-            */
             string sqlStr = string.Format(@"SELECT SUBSTR(SYS_CONNECT_BY_PATH(AR_Machine_Flag,','),2) AR_Machine_Flag
                                                 FROM (
                                                      SELECT DISTINCT SUBSTR(job_number,1,1) AR_Machine_Flag
-                                                     FROM Attendance_Record_Detail 
+                                                     FROM Attendance_Record_Final 
                                                      WHERE TRUNC(finger_print_date,'MM') = TO_DATE('{0}','yyyy-MM')    
                                                 )TEMP
                                                 CONNECT BY AR_Machine_Flag > PRIOR AR_Machine_Flag 
@@ -153,287 +127,10 @@ namespace AttendanceRecord
             this.MdiParent.ShowInTaskbar = false;
             ((FrmMainOfAttendanceRecord)this.MdiParent).nfiSystem.Visible = true;
             ((FrmMainOfAttendanceRecord)this.MdiParent).nfiSystem.Icon = Properties.Resources.apps;
-            /*
-            if (radioBtnSeparate.Checked) {
-                separateOutputARByPreparedFile();
-                //separateOutputAR();
-                //
-                #region 输出本月考勤数据中同名的用户的考勤汇总，保存至同一张表格中。
-                outputSameNameButDifferentAttendanceMachineFalg(YearAndMonthStr);
-                #endregion
-                //显示完成图标
-                timerCompleted.Start();
-                return;
-            }
-            /*
-             此处先生成一个汇总。
-             */
-            //V_Summary_OF_AR.generateAttendanceRecordBriefly(YearAndMonthStr);
-            //toAWholePiece();
             toAWholePiece_Previous();
             //显示完成图标。
             timerCompleted.Start();
         }
-        /*
-        private void toAWholePiece()
-        {
-            killHwndOfXls();
-            Queue<int> prefix_Of_Staffs_Queue = get_Prefix_Of_Staffs_Queue();
-            if (prefix_Of_Staffs_Queue.Count == 0)
-            {
-                ShowResult.show(lblResult, "尚未导入本月的考勤记录！", false);
-                timerRestoreTheLblResult.Enabled = true;
-                return;
-            }
-            MSG msg = new MSG();
-            ApplicationClass app = new ApplicationClass();
-            //追加Hwnd到队列中.
-            int appHwnd = app.Hwnd;
-            app.Visible = false;
-            Workbook wBook = app.Workbooks.Add(true);
-            Worksheet wSheet = (Worksheet)wBook.Worksheets[1];
-
-            string _defaultDir = System.Windows.Forms.Application.StartupPath + "\\考勤汇总";
-            int seq = prefix_Of_Staffs_Queue.Dequeue();
-            int lastSeq = 0;
-            while (prefix_Of_Staffs_Queue.Count >= 1)
-                lastSeq = prefix_Of_Staffs_Queue.Dequeue();
-            string _fileName = YearAndMonthStr + "_考勤汇总" + seq.ToString().Substring(0,1) + "-" + lastSeq.ToString().Substring(0,1) + "_" + TimeHelper.getCurrentTimeStr() + ".xls";
-            if (!destFilePath.Contains(":"))
-            {
-                //导出到Excel中
-                destFilePath = FileNameDialog.getSaveFileNameWithDefaultDir("考勤汇总：", "*.xls|*.xls", _defaultDir, _fileName);
-                if (!destFilePath.Contains(@"\"))
-                {
-                    return;
-                }
-            }
-            string sqlStr = string.Format(@"delete from Attendance_Record_Summary");
-            OracleDaoHelper.executeSQL(sqlStr);
-            //按名称分组  汇总考勤记录到Attendance_Record_Summary。
-            saveARToARSummary(YearAndMonthStr);
-           //依据前缀和月份获取列表。
-           //获取该月该考勤机的出勤人数。
-           int AR_Num = V_AttendanceRecord.getARSummaryNumByYearAndMonth(YearAndMonthStr);
-                if (AR_Num == 0)
-                {
-                    MessageBox.Show("数据源为空，无法导出。", "提示：", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return;
-                }
-                int rowMaxCount = AR_Num * 2 + 6;
-                int colMaxCount = AttendanceR.get_A_R_Summary_Days_Num(YearAndMonthStr);
-                //写标题
-                try
-                {
-                    //每行格式设置，注意标题占一行。
-                    Range range = wSheet.get_Range(wSheet.Cells[1, 1], wSheet.Cells[rowMaxCount + 1, colMaxCount + 1]);
-                    //设置单元格为文本。
-                    range.NumberFormatLocal = "@";
-                    //水平对齐方式
-                    range.HorizontalAlignment = XlHAlign.xlHAlignCenter;
-                    //第一行写考勤分析结果。
-                    wSheet.Cells[1, 1] = YearAndMonthStr + " 出勤结果汇总" + seq.ToString() + "-" + lastSeq.ToString();
-                    //获取该日期详细的考勤记录。
-                    #region
-                    V_AttendanceRecord.AR_Properties aR_Properties = V_AttendanceRecord.getPropertiesFromAttendanceRecordSummary(YearAndMonthStr);
-                    //第三行：考勤时间
-                    wSheet.Cells[3, 1] = "考勤时间";
-                    wSheet.Cells[3, 3] = String.Format(@"{0} ~ {1}",
-                                                            aR_Properties.Start_Date,
-                                                            aR_Properties.End_Date);
-                    wSheet.Cells[3, 10] = "制表时间";
-                    wSheet.Cells[3, 12] = aR_Properties.Tabulation_date;
-                    #endregion
-                    List<int> dayList = V_AR_DETAIL.getDaysOfARSummaryByYearAndMonth(YearAndMonthStr );
-                    //需要统计有多少人。
-                    int total_num_of_AttendanceR = AttendanceR.get_Total_Num_Of_Staffs_Of_A_R_Summary_By_YAndM(YearAndMonthStr);
-                    pb.Value = 0;
-                    pb.Maximum = dayList.Count + dayList.Count * total_num_of_AttendanceR;
-                    pb.Visible = true;
-                    lblPrompt.Text = _fileName + ":";
-                    lblPrompt.Visible = true;
-                    //写 此月与考勤相关的日。
-                    for (int i = 0; i <= dayList.Count - 1; i++)
-                    {
-                        //写该月的具体有哪些日：1，2，3.与考勤相关。
-                        wSheet.Cells[4, i + 1] = dayList[i].ToString();
-                        pb.Value++;
-                    }
-                    //实际出勤天数.
-                    wSheet.Cells[4, dayList.Count + 1] = "实际出勤天数";
-                    //事假  
-                    wSheet.Cells[4, dayList.Count + 2] = "事假";
-                    //未打卡
-                    wSheet.Cells[4, dayList.Count + 3] = "未打卡";
-                    //平日加班
-                    wSheet.Cells[4, dayList.Count + 4] = "平日延点";
-                    //加班日工作时长
-                    wSheet.Cells[4, dayList.Count + 5] = "加班日工作时长";
-                    //加班合计
-                    wSheet.Cells[4, dayList.Count + 6] = "加班合计(小时)";
-                    //迟到
-                    wSheet.Cells[4, dayList.Count + 7] = "迟到";
-                    //早退
-                    wSheet.Cells[4, dayList.Count + 8] = "早退";
-                    //餐补
-                    wSheet.Cells[4, dayList.Count + 9] = "餐补";
-                    string AR_YEAR_AND_Month_Str = String.Empty;
-                    string AR_Day = string.Empty;
-                    List<V_AR_DETAIL> V_A_R_S_Staff_Base_Info_List = null;
-                    for (int j = 1; j <= dayList.Count; j++)
-                    {
-                        AR_YEAR_AND_Month_Str = aR_Properties.Start_Date.Substring(0, 8);
-                        AR_Day = AR_YEAR_AND_Month_Str + dayList[j - 1].ToString().PadLeft(2, '0');
-                        V_A_R_S_Staff_Base_Info_List = V_AR_DETAIL.get_V_A_R_Summary_Base_Info_By_Specific_Day(AR_Day);
-                        //按日取。
-                        for (int i = 0; i <= V_A_R_S_Staff_Base_Info_List.Count - 1; i++)
-                        {
-                            V_AR_DETAIL v_AR_Detail = V_A_R_S_Staff_Base_Info_List[i];
-                            if (j == 1)
-                            {
-                                //第五行写工号。
-                                wSheet.Cells[5 + i * 2, 1] = "工号";
-                                //获取原始的工号，没有前缀。
-                                wSheet.Cells[5 + i * 2, 3] = "'" + v_AR_Detail.Job_number;
-                                //9
-                                wSheet.Cells[5 + i * 2, 9] = "姓名";
-                                //11
-                                wSheet.Cells[5 + i * 2, 11] = v_AR_Detail.Name;
-                                //19
-                                wSheet.Cells[5 + i * 2, 19] = "部门";
-                                //21
-                                wSheet.Cells[5 + i * 2, 21] = v_AR_Detail.Dept;
-                
-                                V_Summary_OF_AR v_summary_of_ar = new V_Summary_OF_AR(v_AR_Detail.Job_number, YearAndMonthStr);
-                                //获取考勤 汇总: 出勤天数，
-                                System.Data.DataTable dtARSummary = v_summary_of_ar.getSummaryOfAttendance_Record_Summary();
-                                //实际出勤天数.
-                                wSheet.Cells[6 + i * 2, dayList.Count + 1] = dtARSummary.Rows[0]["AR_DAYS"].ToString();
-                                //事假 
-                                string vacatioin_total_time = dtARSummary.Rows[0]["VACATION_TOTAL_TIME"].ToString();
-                                wSheet.Cells[6 + i * 2, dayList.Count + 2] = "0".Equals(vacatioin_total_time) ? "" : vacatioin_total_time;
-                                string not_Finger_Print_num = dtARSummary.Rows[0]["NOT_FINGERPRINT_TIMES"].ToString();
-                                //未打卡
-                                wSheet.Cells[6 + i * 2, dayList.Count + 3] = "0".Equals(not_Finger_Print_num) ? "" : not_Finger_Print_num;
-                                //平日延时
-                                string DELAY_TIMES_OF_Ordinary_Days_str = dtARSummary.Rows[0]["DELAY_TIMES_OF_Ordinary_Days"].ToString();
-                                wSheet.Cells[6 + i * 2, dayList.Count + 4] = "0.0".Equals(DELAY_TIMES_OF_Ordinary_Days_str) ? "" : DELAY_TIMES_OF_Ordinary_Days_str;
-                                //写加班日工作时长
-                                string duration_ov_overtime_days_str = dtARSummary.Rows[0]["Duration_Of_Overtime_Days"].ToString();
-                                wSheet.Cells[6 + i * 2, dayList.Count + 5] = "0.0".Equals(duration_ov_overtime_days_str) ? "" : duration_ov_overtime_days_str;
-                                //写总的加班费用。
-                                string delayTotalTimes_Str = dtARSummary.Rows[0]["DELAY_TOTAL_TIME"].ToString();
-                                wSheet.Cells[6 + i * 2, dayList.Count + 6] = "0.0".Equals(delayTotalTimes_Str) ? "" : delayTotalTimes_Str;
-
-                                string come_late_Num = dtARSummary.Rows[0]["COME_LATE_NUM"].ToString();
-                                //迟到
-                                wSheet.Cells[6 + i * 2, dayList.Count + 7] = "0".Equals(come_late_Num) ? "" : come_late_Num;
-                                string leave_early_num = dtARSummary.Rows[0]["LEAVE_EARLY_NUM"].ToString();
-                                //早退
-                                wSheet.Cells[6 + i * 2, dayList.Count + 8] = "0".Equals(leave_early_num) ? "" : leave_early_num;
-                                //餐补
-                                wSheet.Cells[6 + i * 2, dayList.Count + 9] = dtARSummary.Rows[0]["DINNER_SUBSIDY_NUM"].ToString();
-                            }
-                            System.Data.DataTable dt = V_AR_Time_Helper.get_AR_Time(v_AR_Detail.Job_number, AR_Day);
-                            Range tempRange = ((Range)(wSheet.Cells[6 + i * 2, j]));
-                            wSheet.Cells[6 + i * 2, j] = dt.Rows[0]["fpt_first_time"].ToString() + "\r\n" +  dt.Rows[0]["fpt_last_time"].ToString(); 
-                            string timeStr = tempRange.Text.ToString().Trim();
-                            if (string.IsNullOrEmpty(timeStr))
-                            {
-                                pb.Value++;
-                                if (Math.Round(((decimal)(pb.Value / pb.Maximum) * 100), 2).ToString().Substring(0,2) == "0.3") {
-                                    ;
-                                }
-                                continue;
-                            }
-                            //获取第一次刷卡的时间.
-                            bool comeLate = "1".Equals(dt.Rows[0]["come_late_num"].ToString())? true :false;
-                            bool leaveEarly = "1".Equals(dt.Rows[0]["leave_early_num"].ToString())? true :false;
-                            //交给一个方法去判断。
-                            if (comeLate)
-                            {
-                                tempRange.Characters[1, 5].Font.Color = -16776961;
-                            }
-                                    //交给一个方法去判断。
-                            if (leaveEarly)
-                            {
-                                tempRange.Characters[timeStr.Length - 4, 5].Font.Color = -16776961;
-                             }
-                            if (Math.Round(((decimal)(pb.Value / pb.Maximum) * 100), 2).ToString().Substring(0, 2) == "0.3")
-                            {
-                                ;
-                            }
-                        pb.Value++;
-                        }
-                   }
-                    rowMaxCount = wSheet.UsedRange.Rows.Count;
-                    //休息日，背景色变为浅绿色。
-                    for (int j = 1; j <= dayList.Count; j++)
-                    {
-                        bool iftheDaysOfOverTime = false;
-                        AR_YEAR_AND_Month_Str = aR_Properties.Start_Date.Substring(0, 8);
-                        AR_Day = AR_YEAR_AND_Month_Str + dayList[j - 1].ToString().PadLeft(2, '0');
-                        iftheDaysOfOverTime = Have_A_Rest_Helper.ifDayOfRest(AR_Day);
-                        if (iftheDaysOfOverTime)
-                        {
-                            //此列背景色改为：
-                            /*
-                                ange("AF102").Select
-                                With Selection.Interior
-                                    .Pattern = xlSolid
-                                    .PatternColorIndex = xlAutomatic
-                                     .ThemeColor = xlThemeColorAccent3
-                                     .TintAndShade = 0.599993896298105
-                                    .PatternTintAndShade = 0
-                                End With
-                            End Sub
-                            */
-                            /*
-                            Range rangetheDaysOfOverTime = wSheet.get_Range(wSheet.Cells[4, j], wSheet.Cells[rowMaxCount, j]);
-                            rangetheDaysOfOverTime.Interior.Pattern = XlPattern.xlPatternSolid;
-                            rangetheDaysOfOverTime.Interior.PatternColorIndex = XlPattern.xlPatternAutomatic;
-                            rangetheDaysOfOverTime.Interior.ThemeColor = XlThemeColor.xlThemeColorAccent3;
-                            rangetheDaysOfOverTime.Interior.TintAndShade = 0.599993896298105;
-                            rangetheDaysOfOverTime.Interior.PatternTintAndShade = 0;
-                        }
-                    }
-                    //合并第一行
-                    Range rangeTitle = wSheet.get_Range(wSheet.Cells[1, 1], wSheet.Cells[1, dayList.Count + 7]);
-                    rangeTitle.Merge();
-                    rangeTitle.HorizontalAlignment = XlHAlign.xlHAlignCenter;
-                    rangeTitle.VerticalAlignment = XlVAlign.xlVAlignCenter;
-     
-                pb.Visible = false;
-                    lblPrompt.Visible = false;
-                    //自动调整列宽
-                    //range.EntireColumn.AutoFit();
-                    //设置禁止弹出保存和覆盖的询问提示框
-                    app.DisplayAlerts = false;
-                    app.AlertBeforeOverwriting = false;
-                    //保存excel文档并关闭
-                    wBook.SaveAs(destFilePath, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
-                    wBook.Close(true, destFilePath, Type.Missing);
-                    //退出Excel程序
-                    app.Quit();
-                    //释放资源
-                    System.Runtime.InteropServices.Marshal.ReleaseComObject(range);
-                    System.Runtime.InteropServices.Marshal.ReleaseComObject(wSheet);
-                    System.Runtime.InteropServices.Marshal.ReleaseComObject(wBook);
-                    System.Runtime.InteropServices.Marshal.ReleaseComObject(app);
-                    //调用GC的垃圾收集方法
-                    GC.Collect();
-                    GC.WaitForPendingFinalizers();
-                    ShowResult.show(lblResult, "存于: " + destFilePath, true);
-                    timerRestoreTheLblResult.Enabled = true;
-                    //生成工作安排表。
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "提示消息:", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return;
-                }
-        }
-         */
         /// <summary>
         /// 保存考勤汇总到 Attendance_Record_Summary.
         /// 用于处理异机同名用户。
@@ -448,7 +145,6 @@ namespace AttendanceRecord
             OracleHelper oH = OracleHelper.getBaseDao();
             oH.ExecuteNonQuery(procName, parameters);
         }
-
         /// <summary>
         /// 最早的文件备份一份。
         /// </summary>
@@ -475,7 +171,6 @@ namespace AttendanceRecord
             else {
                 _fileName = string.Format(@"{0}_考勤汇总_{1}-{2}_{3}.xls", YearAndMonthStr, seq.ToString(), lastSeq.ToString(), TimeHelper.getCurrentTimeStr());
             }
-            
             if (!destFilePath.Contains(":"))
             {
                 //导出到Excel中
@@ -528,7 +223,7 @@ namespace AttendanceRecord
                 wSheet.Cells[3, 10] = "制表时间";
                 wSheet.Cells[3, 12] = aR_Properties.Tabulation_date;
                 #endregion
-                List<int> dayList = V_AR_DETAIL.getMonthAL_By_YAndM(YearAndMonthStr);
+                List<int> dayList = V_AR_DETAIL.getDayListOfTheSpecificMonth(YearAndMonthStr);
                 //需要统计有多少人。
                 int total_num_of_AttendanceR = AttendanceR.get_Total_Num_Of_Staffs_By_YAndM_And_AMFlag(cb_Attendance_Machine.Text.Trim(),YearAndMonthStr);
                 pb.Value = 0;
@@ -545,9 +240,9 @@ namespace AttendanceRecord
                 }
                 //OVERTIME_OF_WEE_HOURS_OF_WD
                 //实际出勤天数.
-                wSheet.Cells[4, dayList.Count + 1] = "实际出勤总天数";
+                wSheet.Cells[4, dayList.Count + 1] = "实际刷卡总天数";
                 //事假  
-                wSheet.Cells[4, dayList.Count + 2] = "事假";
+                wSheet.Cells[4, dayList.Count + 2] = "请假时间字符串";
                 //未打卡
                 wSheet.Cells[4, dayList.Count + 3] = "工作日(少打卡)";     //实际指： 周一至周五
                 //平日加班
@@ -562,15 +257,15 @@ namespace AttendanceRecord
                 //早退
                 wSheet.Cells[4, dayList.Count + 9] = "早退";
                 //餐补
-                wSheet.Cells[4, dayList.Count + 10] = "餐补";
+                wSheet.Cells[4, dayList.Count + 10] = "午餐餐补";
                 string AR_YEAR_AND_Month_Str = string.Empty;
                 if (!"".Equals(aR_Properties.Start_Date)) {
-                    AR_YEAR_AND_Month_Str = AR_YEAR_AND_Month_Str = aR_Properties.Start_Date.Substring(0, 7);
+                    AR_YEAR_AND_Month_Str = aR_Properties.Start_Date.Substring(0, 7);
                 }
                 string AR_Day = string.Empty;
-                //先删除汇总表
-                clear_AR_SUMMARY_FINAL();
-                List<V_AR_DETAIL> v_AR_Base_Info_By_Specific_Month_List = null;
+                //先删除本月汇总表
+                clear_AR_SUMMARY_FINAL(YearAndMonthStr);
+                List<V_Emp_BaseInfo> v_AR_Base_Info_By_Specific_Month_List = null;
                 //获取 某月某考勤机的  部门，工号，姓名。
                 /*
                  select distinct dept,job_number,name
@@ -579,39 +274,43 @@ namespace AttendanceRecord
                                                 and trunc(fingerprint_date,'MM') = to_date('{1}','yyyy-MM')
                                                 order by job_number asc
                  */
-                v_AR_Base_Info_By_Specific_Month_List = V_AR_DETAIL.get_V_AR_Detail_By_Attendance_Machine_Flag_And_Specific_Day(cb_Attendance_Machine.Text.Trim(),AR_YEAR_AND_Month_Str);
+                v_AR_Base_Info_By_Specific_Month_List = V_Emp_BaseInfo.get_V_AR_BaseInfo_By_Attendance_Machine_Flag_And_Specific_Month(cb_Attendance_Machine.Text.Trim(),AR_YEAR_AND_Month_Str);
                 for (int j = 1; j <= dayList.Count; j++)
                 {
-                    
                     AR_Day = AR_YEAR_AND_Month_Str + "-" + dayList[j - 1].ToString().PadLeft(2, '0');
                     //按日取。
                     for (int i = 0; i <= v_AR_Base_Info_By_Specific_Month_List.Count - 1; i++)
                     {
-                        V_AR_DETAIL v_AR_Detail = v_AR_Base_Info_By_Specific_Month_List[i];
+                        V_Emp_BaseInfo v_Emp_BaseInfo = v_AR_Base_Info_By_Specific_Month_List[i];
                         if (j == 1)
                         {
                             //第五行写工号。
                             wSheet.Cells[5 + i * 2, 1] = "工号";
                             //获取原始的工号，没有前缀。
-                            wSheet.Cells[5 + i * 2, 3] = "'" + v_AR_Detail.Job_number;
+                            wSheet.Cells[5 + i * 2, 3] = "'" + v_Emp_BaseInfo.Job_number;
                             //9
                             wSheet.Cells[5 + i * 2, 9] = "姓名";
                             //11
-                            wSheet.Cells[5 + i * 2, 11] = v_AR_Detail.Name;
+                            wSheet.Cells[5 + i * 2, 11] = v_Emp_BaseInfo.Name;
                             //19
                             wSheet.Cells[5 + i * 2, 19] = "部门";
                             //21
-                            wSheet.Cells[5 + i * 2, 21] = v_AR_Detail.Dept;
-                            V_Summary_OF_AR v_summary_of_ar = new V_Summary_OF_AR(v_AR_Detail.Job_number, YearAndMonthStr);
-                            v_summary_of_ar.Name = v_AR_Detail.Name;
+                            wSheet.Cells[5 + i * 2, 21] = v_Emp_BaseInfo.Dept;
+                            V_Summary_OF_AR v_summary_of_ar = new V_Summary_OF_AR(v_Emp_BaseInfo.Job_number, YearAndMonthStr);
+                            v_summary_of_ar.Name = v_Emp_BaseInfo.Name;
                             //PKG_Get_Summary_Of_AR.get_summary_of_ar
                             System.Data.DataTable dtARSummary = v_summary_of_ar.getSummaryOFAR();
                             //实际出勤天数.
                             string actual_ar_days_str = dtARSummary.Rows[0]["AR_DAYS"].ToString();
                             wSheet.Cells[6 + i * 2, dayList.Count + 1] = "0".Equals(actual_ar_days_str) ? "" : actual_ar_days_str;
                             //事假 
-                            string vacatioin_total_time = dtARSummary.Rows[0]["VACATION_TOTAL_TIME"].ToString();
-                            wSheet.Cells[6 + i * 2, dayList.Count + 2] = "0".Equals(vacatioin_total_time) ? "" : vacatioin_total_time;
+                            //string vacatioin_total_time = dtARSummary.Rows[0]["VACATION_TOTAL_TIME"].ToString();
+                            string vacation_time_str = dtARSummary.Rows[0]["VACATION_TIME_STR"].ToString();
+                            if (!string.IsNullOrEmpty(vacation_time_str))
+                            {
+                                vacation_time_str = vacation_time_str.Replace(",", "\r\n");
+                            }
+                            wSheet.Cells[6 + i * 2, dayList.Count + 2] = vacation_time_str;
                             string not_Finger_Print_num = dtARSummary.Rows[0]["NOT_FINGERPRINT_TIMES"].ToString();
                             //未打卡
                             wSheet.Cells[6 + i * 2, dayList.Count + 3] = "0".Equals(not_Finger_Print_num) ? "" : not_Finger_Print_num;
@@ -638,26 +337,38 @@ namespace AttendanceRecord
                             string dinnger_subsidy_num_str = dtARSummary.Rows[0]["DINNER_SUBSIDY_NUM"].ToString();
                             wSheet.Cells[6 + i * 2, dayList.Count + 10] = "0".Equals(dinnger_subsidy_num_str) ?"": dinnger_subsidy_num_str;
                         }
-                        System.Data.DataTable dt = V_AR_Time_Helper.getARTimeByJN(v_AR_Detail.Job_number, AR_Day);
-
-                        string tempStr = dt.Rows[0]["fpt_first_time"].ToString() + "\r\n" + dt.Rows[0]["fpt_last_time"].ToString();
-                        wSheet.Cells[6 + i * 2, j] = tempStr;
-                        if (!string.IsNullOrEmpty(tempStr)) {
-                            //获取第一次刷卡的时间.
-                            bool comeLate = "1".Equals(dt.Rows[0]["come_late_num"].ToString()) ? true : false;
-                            bool leaveEarly = "1".Equals(dt.Rows[0]["leave_early_num"].ToString()) ? true : false;
-                            Range tempRange = ((Range)(wSheet.Cells[6 + i * 2, j]));
-                            //交给一个方法去判断。
-                            if (comeLate)
+                        #region 刷卡细节获取。
+                        //返回  finger_print_date,come_late_flag,leave_early_flag
+                        System.Data.DataTable dtARDetail = V_AR_Time_Helper.getARTimeByJN(v_Emp_BaseInfo.Job_number, AR_Day);
+                        int countOfdtARDetail = dtARDetail.Rows.Count;
+                        bool comeLateFlag = "1".Equals(dtARDetail.Rows[0]["come_late_flag"].ToString()) ? true : false;
+                        
+                        bool leaveEarlyFlag = "1".Equals(dtARDetail.Rows[countOfdtARDetail-1]["leave_early_flag"].ToString()) ? true : false;
+                        for (int index = 0;index<= dtARDetail.Rows.Count-1;index++) {
+                            string tempTimeStr = dtARDetail.Rows[index]["finger_print_time_HH24_MI_str"].ToString();
+                            string cellContentOfARDetail = ((Range)wSheet.Cells[6 + i * 2, j]).Text.ToString();
+                            if (string.IsNullOrEmpty(cellContentOfARDetail))
+                            {
+                                wSheet.Cells[6 + i * 2, j] = tempTimeStr;
+                            }
+                            else {
+                                wSheet.Cells[6 + i * 2, j] = ((Range)wSheet.Cells[6 + i * 2, j]).Text.ToString() + "\r\n" + tempTimeStr;
+                            }
+                        }
+                        int length = ((Range)wSheet.Cells[6 + i * 2, j]).Text.ToString().Length;
+                        if (length != 0) {
+                            Range tempRange = ((Microsoft.Office.Interop.Excel.Range)(wSheet.Cells[6 + i * 2, j]));
+                            
+                            if (comeLateFlag)
                             {
                                 tempRange.Characters[1, 5].Font.Color = -16776961;
                             }
-                            //交给一个方法去判断。
-                            if (leaveEarly)
+                            if (leaveEarlyFlag)
                             {
-                                tempRange.Characters[tempStr.Length - 4, 5].Font.Color = -16776961;
+                                tempRange.Characters[length - 4, 5].Font.Color = -16776961;
                             }
                         }
+                        #endregion 刷卡细节获取结束。
                         pb.Value++;
                     }
                 }
@@ -709,8 +420,8 @@ namespace AttendanceRecord
                 secondSheet.Cells[1, 2] = "姓名";
                 secondSheet.Cells[1, 3] = "所属部门";
                 secondSheet.Cells[1, 4] = "所属组";
-                secondSheet.Cells[1, 5] = "实际出勤总天数";
-                secondSheet.Cells[1, 6] = "事假";
+                secondSheet.Cells[1, 5] = "实际刷卡总天数";
+                secondSheet.Cells[1, 6] = "请假";
                 secondSheet.Cells[1, 7] = "工作日(少打卡)";
                 secondSheet.Cells[1, 8] = "工作日(正班 延点自17:00起)";
                 secondSheet.Cells[1, 9] = "工作日(凌晨 <5:00起至下班)";
@@ -718,7 +429,7 @@ namespace AttendanceRecord
                 secondSheet.Cells[1, 11] = "加班合计(小时)";
                 secondSheet.Cells[1, 12] = "迟到";
                 secondSheet.Cells[1, 13] = "早退";
-                secondSheet.Cells[1, 14] = "餐补";
+                secondSheet.Cells[1, 14] = "午餐餐补";
                 secondSheet.Cells[1, 15] = "备注";
                 secondSheet.Cells[2, 15] = "所属 部门_班组,数据来自_MES_制卡系统";
                 //获取考勤汇总： 所属部门	所属组	实际出勤天数	未打卡	平日延点	加班日工作时长	加班合计(小时)	迟到	早退	餐补	备注
@@ -753,9 +464,11 @@ namespace AttendanceRecord
                     #endregion
                     string days_of_real_attendance_str = dtARSummaryFinal.Rows[i]["days_of_real_attendance"].ToString();
                     secondSheet.Cells[rowIndex, 5] = "0".Equals(days_of_real_attendance_str) ? "" : days_of_real_attendance_str;
-                    //请假时长
-                    string vataction_total_time_str = dtARSummaryFinal.Rows[i]["vacation_total_time"].ToString();
-                    secondSheet.Cells[rowIndex, 6] = "0".Equals(vataction_total_time_str) ? "" : vataction_total_time_str;
+                    //请假,字符串
+                    //string vataction_total_time_str = dtARSummaryFinal.Rows[i]["vacation_total_time"].ToString();
+                    string vacation_time_str = dtARSummaryFinal.Rows[i]["vacation_time_str"].ToString();
+                    vacation_time_str = vacation_time_str.Replace(",", "\r\n");
+                    secondSheet.Cells[rowIndex, 6] = "0".Equals(vacation_time_str) ? "" : vacation_time_str;
                     string not_finger_print_str = dtARSummaryFinal.Rows[i]["not_finger_print"].ToString();
                     secondSheet.Cells[rowIndex, 7] = "0".Equals(not_finger_print_str) ? "" : not_finger_print_str;
                     string overtime_of_workday_str = dtARSummaryFinal.Rows[i]["overtime_of_workday"].ToString();
@@ -807,6 +520,14 @@ namespace AttendanceRecord
         private void clear_AR_SUMMARY_FINAL()
         {
             string sqlStr = string.Format(@"delete from AR_Summary_Final");
+            OracleDaoHelper.executeSQL(sqlStr);
+        }
+        /// <summary>
+        /// 删除汇总表格表。
+        /// </summary>
+        private void clear_AR_SUMMARY_FINAL(string year_and_month_str)
+        {
+            string sqlStr = string.Format(@"delete from AR_Summary_Final where trunc(belong_to_month,'MM') = to_date('{0}','yyyy-MM')",year_and_month_str);
             OracleDaoHelper.executeSQL(sqlStr);
         }
 

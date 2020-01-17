@@ -73,7 +73,13 @@ namespace AttendanceRecord.Entities
             string sqlStr = string.Format(@"delete from AR_Temp");
             OracleDaoHelper.executeSQL(sqlStr);
         }
-        //保存数据
+        /// <summary>
+        /// 保存 ATTENDANCE_MACHINE_FLAG,
+        ///     row_index,
+        ///     job_number,
+        ///     name
+        /// 至AR_Temp中
+        /// </summary>
         public void saveRecord() {
             string sqlStr = string.Format(@"INSERT INTO AR_Temp(ATTENDANCE_MACHINE_FLAG,row_index,job_number,name) values({0},{1},'{2}','{3}')", _attendance_machine_flag,_row_Index, _job_number,_name);
             OracleDaoHelper.executeSQL(sqlStr);

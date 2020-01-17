@@ -30,7 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             this.lblName = new System.Windows.Forms.Label();
-            this.tbName = new System.Windows.Forms.TextBox();
             this.dgv = new System.Windows.Forms.DataGridView();
             this.cmStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.delByNOToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -38,50 +37,39 @@
             this.lblResult = new System.Windows.Forms.Label();
             this.timerClsResult = new System.Windows.Forms.Timer(this.components);
             this.dtPicker = new System.Windows.Forms.DateTimePicker();
-            this.lblStartTime = new System.Windows.Forms.Label();
-            this.lblEndTime = new System.Windows.Forms.Label();
-            this.tbNO = new System.Windows.Forms.TextBox();
-            this.lblNO = new System.Windows.Forms.Label();
-            this.timeStartPicker = new System.Windows.Forms.DateTimePicker();
-            this.timeEndPicker = new System.Windows.Forms.DateTimePicker();
-            this.label1 = new System.Windows.Forms.Label();
             this.lblStartDate = new System.Windows.Forms.Label();
+            this.cbName = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.cbTimeSection = new System.Windows.Forms.ComboBox();
+            this.dgvARDetail = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.cmStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvARDetail)).BeginInit();
             this.SuspendLayout();
             // 
             // lblName
             // 
             this.lblName.AutoSize = true;
-            this.lblName.Font = new System.Drawing.Font("宋体", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblName.Location = new System.Drawing.Point(123, 122);
+            this.lblName.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblName.Location = new System.Drawing.Point(111, 69);
             this.lblName.Name = "lblName";
-            this.lblName.Size = new System.Drawing.Size(114, 33);
+            this.lblName.Size = new System.Drawing.Size(85, 24);
             this.lblName.TabIndex = 0;
             this.lblName.Text = "姓名：";
-            // 
-            // tbName
-            // 
-            this.tbName.Font = new System.Drawing.Font("宋体", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.tbName.Location = new System.Drawing.Point(229, 114);
-            this.tbName.Name = "tbName";
-            this.tbName.Size = new System.Drawing.Size(279, 41);
-            this.tbName.TabIndex = 3;
-            this.tbName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbName_KeyPress);
             // 
             // dgv
             // 
             this.dgv.AllowUserToAddRows = false;
-            this.dgv.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.dgv.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv.ContextMenuStrip = this.cmStrip;
-            this.dgv.Location = new System.Drawing.Point(35, 417);
+            this.dgv.Location = new System.Drawing.Point(35, 599);
             this.dgv.MultiSelect = false;
             this.dgv.Name = "dgv";
             this.dgv.RowTemplate.Height = 23;
             this.dgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgv.Size = new System.Drawing.Size(1292, 309);
+            this.dgv.Size = new System.Drawing.Size(1292, 134);
             this.dgv.TabIndex = 8;
             // 
             // cmStrip
@@ -105,7 +93,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSubmit.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.btnSubmit.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnSubmit.Location = new System.Drawing.Point(1210, 347);
+            this.btnSubmit.Location = new System.Drawing.Point(1219, 187);
             this.btnSubmit.Name = "btnSubmit";
             this.btnSubmit.Size = new System.Drawing.Size(108, 33);
             this.btnSubmit.TabIndex = 12;
@@ -116,12 +104,12 @@
             // 
             // lblResult
             // 
-            this.lblResult.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.lblResult.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblResult.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblResult.Location = new System.Drawing.Point(36, 746);
+            this.lblResult.Location = new System.Drawing.Point(36, 753);
             this.lblResult.Name = "lblResult";
-            this.lblResult.Size = new System.Drawing.Size(1291, 52);
+            this.lblResult.Size = new System.Drawing.Size(1291, 45);
             this.lblResult.TabIndex = 13;
             this.lblResult.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -133,96 +121,74 @@
             // dtPicker
             // 
             this.dtPicker.CustomFormat = "yyyy-MM-dd";
-            this.dtPicker.Font = new System.Drawing.Font("宋体", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.dtPicker.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.dtPicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtPicker.Location = new System.Drawing.Point(229, 211);
+            this.dtPicker.Location = new System.Drawing.Point(214, 124);
             this.dtPicker.Name = "dtPicker";
-            this.dtPicker.Size = new System.Drawing.Size(131, 29);
+            this.dtPicker.Size = new System.Drawing.Size(245, 35);
             this.dtPicker.TabIndex = 15;
-            this.dtPicker.ValueChanged += new System.EventHandler(this.dtStartPicker_ValueChanged);
-            // 
-            // lblStartTime
-            // 
-            this.lblStartTime.AutoSize = true;
-            this.lblStartTime.Font = new System.Drawing.Font("宋体", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblStartTime.Location = new System.Drawing.Point(57, 278);
-            this.lblStartTime.Name = "lblStartTime";
-            this.lblStartTime.Size = new System.Drawing.Size(180, 33);
-            this.lblStartTime.TabIndex = 16;
-            this.lblStartTime.Text = "起始时间：";
-            // 
-            // lblEndTime
-            // 
-            this.lblEndTime.AutoSize = true;
-            this.lblEndTime.Font = new System.Drawing.Font("宋体", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblEndTime.Location = new System.Drawing.Point(646, 293);
-            this.lblEndTime.Name = "lblEndTime";
-            this.lblEndTime.Size = new System.Drawing.Size(180, 33);
-            this.lblEndTime.TabIndex = 18;
-            this.lblEndTime.Text = "终止时间：";
-            // 
-            // tbNO
-            // 
-            this.tbNO.Font = new System.Drawing.Font("宋体", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.tbNO.Location = new System.Drawing.Point(824, 114);
-            this.tbNO.Name = "tbNO";
-            this.tbNO.ReadOnly = true;
-            this.tbNO.Size = new System.Drawing.Size(259, 41);
-            this.tbNO.TabIndex = 19;
-            // 
-            // lblNO
-            // 
-            this.lblNO.AutoSize = true;
-            this.lblNO.Font = new System.Drawing.Font("宋体", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblNO.Location = new System.Drawing.Point(704, 122);
-            this.lblNO.Name = "lblNO";
-            this.lblNO.Size = new System.Drawing.Size(114, 33);
-            this.lblNO.TabIndex = 20;
-            this.lblNO.Text = "单号：";
-            // 
-            // timeStartPicker
-            // 
-            this.timeStartPicker.CustomFormat = "hh:mm:ss";
-            this.timeStartPicker.Font = new System.Drawing.Font("宋体", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.timeStartPicker.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.timeStartPicker.Location = new System.Drawing.Point(229, 283);
-            this.timeStartPicker.Name = "timeStartPicker";
-            this.timeStartPicker.ShowUpDown = true;
-            this.timeStartPicker.Size = new System.Drawing.Size(131, 29);
-            this.timeStartPicker.TabIndex = 21;
-            this.timeStartPicker.ValueChanged += new System.EventHandler(this.timeStartPicker_ValueChanged);
-            // 
-            // timeEndPicker
-            // 
-            this.timeEndPicker.CustomFormat = "hh:mm:ss";
-            this.timeEndPicker.Font = new System.Drawing.Font("宋体", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.timeEndPicker.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.timeEndPicker.Location = new System.Drawing.Point(836, 298);
-            this.timeEndPicker.Name = "timeEndPicker";
-            this.timeEndPicker.ShowUpDown = true;
-            this.timeEndPicker.Size = new System.Drawing.Size(124, 29);
-            this.timeEndPicker.TabIndex = 22;
-            this.timeEndPicker.ValueChanged += new System.EventHandler(this.timeEndPicker_ValueChanged);
-            // 
-            // label1
-            // 
-            this.label1.Font = new System.Drawing.Font("宋体", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.Location = new System.Drawing.Point(1143, 114);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(180, 94);
-            this.label1.TabIndex = 23;
-            this.label1.Text = "08:00 - 17:00 08:00 - 12:00 13:00 - 17:00";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.dtPicker.ValueChanged += new System.EventHandler(this.dtPicker_ValueChanged);
             // 
             // lblStartDate
             // 
             this.lblStartDate.AutoSize = true;
-            this.lblStartDate.Font = new System.Drawing.Font("宋体", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblStartDate.Location = new System.Drawing.Point(57, 207);
+            this.lblStartDate.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblStartDate.Location = new System.Drawing.Point(56, 131);
             this.lblStartDate.Name = "lblStartDate";
-            this.lblStartDate.Size = new System.Drawing.Size(164, 33);
+            this.lblStartDate.Size = new System.Drawing.Size(123, 24);
             this.lblStartDate.TabIndex = 24;
             this.lblStartDate.Text = "请假日期:";
+            // 
+            // cbName
+            // 
+            this.cbName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbName.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.cbName.FormattingEnabled = true;
+            this.cbName.Location = new System.Drawing.Point(214, 69);
+            this.cbName.Name = "cbName";
+            this.cbName.Size = new System.Drawing.Size(245, 32);
+            this.cbName.TabIndex = 25;
+            this.cbName.SelectedIndexChanged += new System.EventHandler(this.cbName_SelectedIndexChanged);
+            this.cbName.SelectedValueChanged += new System.EventHandler(this.cbName_SelectedValueChanged);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label2.Location = new System.Drawing.Point(31, 190);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(160, 24);
+            this.label2.TabIndex = 26;
+            this.label2.Text = "请假时间段：";
+            // 
+            // cbTimeSection
+            // 
+            this.cbTimeSection.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbTimeSection.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.cbTimeSection.FormattingEnabled = true;
+            this.cbTimeSection.Items.AddRange(new object[] {
+            "08:00 - 12:00",
+            "13:00 - 17:00",
+            "08:00 - 17:00"});
+            this.cbTimeSection.Location = new System.Drawing.Point(214, 187);
+            this.cbTimeSection.Name = "cbTimeSection";
+            this.cbTimeSection.Size = new System.Drawing.Size(245, 32);
+            this.cbTimeSection.TabIndex = 27;
+            // 
+            // dgvARDetail
+            // 
+            this.dgvARDetail.AllowUserToAddRows = false;
+            this.dgvARDetail.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvARDetail.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvARDetail.ContextMenuStrip = this.cmStrip;
+            this.dgvARDetail.Location = new System.Drawing.Point(35, 270);
+            this.dgvARDetail.MultiSelect = false;
+            this.dgvARDetail.Name = "dgvARDetail";
+            this.dgvARDetail.RowTemplate.Height = 23;
+            this.dgvARDetail.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvARDetail.Size = new System.Drawing.Size(1292, 309);
+            this.dgvARDetail.TabIndex = 28;
             // 
             // FrmAskForLeave
             // 
@@ -230,19 +196,15 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SkyBlue;
             this.ClientSize = new System.Drawing.Size(1360, 807);
+            this.Controls.Add(this.dgvARDetail);
+            this.Controls.Add(this.cbTimeSection);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.cbName);
             this.Controls.Add(this.lblStartDate);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.timeEndPicker);
-            this.Controls.Add(this.timeStartPicker);
-            this.Controls.Add(this.lblNO);
-            this.Controls.Add(this.tbNO);
-            this.Controls.Add(this.lblEndTime);
-            this.Controls.Add(this.lblStartTime);
             this.Controls.Add(this.dtPicker);
             this.Controls.Add(this.lblResult);
             this.Controls.Add(this.btnSubmit);
             this.Controls.Add(this.dgv);
-            this.Controls.Add(this.tbName);
             this.Controls.Add(this.lblName);
             this.MaximizeBox = false;
             this.Name = "FrmAskForLeave";
@@ -251,6 +213,7 @@
             this.Load += new System.EventHandler(this.FrmAskForLeave_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
             this.cmStrip.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvARDetail)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -259,22 +222,18 @@
         #endregion
 
         private System.Windows.Forms.Label lblName;
-        private System.Windows.Forms.TextBox tbName;
         private System.Windows.Forms.DataGridView dgv;
         private System.Windows.Forms.Button btnSubmit;
         private System.Windows.Forms.Label lblResult;
         private System.Windows.Forms.Timer timerClsResult;
         private System.Windows.Forms.DateTimePicker dtPicker;
-        private System.Windows.Forms.Label lblStartTime;
-        private System.Windows.Forms.Label lblEndTime;
-        private System.Windows.Forms.TextBox tbNO;
-        private System.Windows.Forms.Label lblNO;
-        private System.Windows.Forms.DateTimePicker timeStartPicker;
-        private System.Windows.Forms.DateTimePicker timeEndPicker;
         private System.Windows.Forms.ContextMenuStrip cmStrip;
         private System.Windows.Forms.ToolStripMenuItem delByNOToolStripMenuItem;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lblStartDate;
+        private System.Windows.Forms.ComboBox cbName;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox cbTimeSection;
+        private System.Windows.Forms.DataGridView dgvARDetail;
     }
 }
 

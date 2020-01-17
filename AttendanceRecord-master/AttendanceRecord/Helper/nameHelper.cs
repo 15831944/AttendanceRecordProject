@@ -8,21 +8,15 @@ namespace AttendanceRecord.Helper
     public class nameHelper
     {
         public static string checkName(string name) {
-            string result = "unique";
-            string sqlStr = String.Format(@"
-                                        SELECT 1 
-                                        FROM Employees emps
-                                        WHERE Name = '{0}'
-                                    ",name);
+            string sqlStr = String.Format(@"select 1
+                                          from attendance_record_briefly
+                                          where trunc(finger_print_date,'MM')>=trunc(add_months(sysdate,-5),'MM') 
+                                          and name = '{0}'",name);
             DataTable dt = Tools.OracleDaoHelper.getDTBySql(sqlStr);
-            switch (dt.Rows.Count) {
-                case 0:
-                    return "用户不存在！";
-                case 1:
-                    return result;
-                default:
-                    return "系统中存在同名用户: " + dt.Rows.Count + "个";
+            if (dt.Rows.Count == 0) {
+                return "用户不存在！";
             }
+            return "用户存在";
         }
     }
 }

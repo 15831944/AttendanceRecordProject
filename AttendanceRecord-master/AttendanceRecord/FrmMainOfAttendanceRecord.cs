@@ -67,14 +67,7 @@ namespace AttendanceRecord
         }
           private void AskForLeaveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!ARActionHelper.getAction(FrmAskForLeave._action)) return;
-            if (frmAskForLeave == null || frmAskForLeave.IsDisposed)
-            {
-                frmAskForLeave = new FrmAskForLeave();
-                frmAskForLeave.Show();
-            }
-            frmAskForLeave.MdiParent = this;
-            frmAskForLeave.Activate();
+           
         }
         /// <summary>
         /// 导入休息日
@@ -159,14 +152,7 @@ namespace AttendanceRecord
 
         private void ARCalculate_ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!ARActionHelper.getAction(FrmAnalyzeAR._action)) return;
-            if (frmAnalyzeAR == null || frmAnalyzeAR.IsDisposed)
-            {
-                frmAnalyzeAR = new FrmAnalyzeAR();
-                frmAnalyzeAR.Show();
-            }
-            frmAnalyzeAR.MdiParent = this;
-            frmAnalyzeAR.Activate();
+       
         }
         private void FillUpARToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -196,6 +182,57 @@ namespace AttendanceRecord
             }
             frmUploadAR.MdiParent = this;
             frmUploadAR.Activate();
+        }
+
+        private void TheDaysOfOvertimeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+          
+        }
+
+        /// <summary>
+        /// 设置加班日
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void setTheDaysOfOverTimeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //查询不可进入。
+            if (!ActionHandler.getAction(FrmTheDaysOfOvertime._action)) return;
+            if (frmTheDaysOfOvertime == null || frmTheDaysOfOvertime.IsDisposed)
+            {
+                frmTheDaysOfOvertime = new FrmTheDaysOfOvertime();
+                frmTheDaysOfOvertime.Show();
+            }
+            frmTheDaysOfOvertime.MdiParent = this;
+            frmTheDaysOfOvertime.Activate();
+        }
+        /// <summary>
+        /// 设置请假记录
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SetTheDaysOfAskForLeaveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!ARActionHelper.getAction(FrmAskForLeave._action)) return;
+            if (frmAskForLeave == null || frmAskForLeave.IsDisposed)
+            {
+                frmAskForLeave = new FrmAskForLeave();
+                frmAskForLeave.Show();
+            }
+            frmAskForLeave.MdiParent = this;
+            frmAskForLeave.Activate();
+        }
+
+        private void ExportARSummaryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!ARActionHelper.getAction(FrmAnalyzeAR._action)) return;
+            if (frmAnalyzeAR == null || frmAnalyzeAR.IsDisposed)
+            {
+                frmAnalyzeAR = new FrmAnalyzeAR();
+                frmAnalyzeAR.Show();
+            }
+            frmAnalyzeAR.MdiParent = this;
+            frmAnalyzeAR.Activate();
         }
     }
 }

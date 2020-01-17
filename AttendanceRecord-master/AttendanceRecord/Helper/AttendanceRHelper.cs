@@ -49,9 +49,7 @@ namespace AttendanceRecord.Helper
            
             MyExcel myExcel = new MyExcel(xlsFilePath);
             //打开该文档。
-            myExcel.open();
-            #region 获取该工作簿中，行数最少的表格。
-            #endregion
+            myExcel.openWithoutAlerts();
             //只获取第一个表格。
             Worksheet ws = myExcel.getFirstWorkSheetAfterOpen();
             bgWork.ReportProgress(0, string.Format(@"lblPrompt.Text = {0}，正在读取：", excelName));
@@ -252,8 +250,8 @@ namespace AttendanceRecord.Helper
                             myExcel.close();
                             return msg;
                         };
-                        //无打卡记录
-                        if (strTimeList.Count == 0)
+                        //无打卡记录,不提交
+                        if (strTimeList.Count==0)
                         {
                             qARDetail.Enqueue(ARDetail);
                         }
@@ -294,6 +292,7 @@ namespace AttendanceRecord.Helper
                 try
                 {
                     AttendanceRecordDetail aRDetail = qARDetail.Dequeue();
+                 
                     affectedCount += aRDetail.saveBySpecificConn(conn);
                     //pb.Value++;
                     bgWork.ReportProgress(pbValue++, "pb.Value");
@@ -476,14 +475,14 @@ namespace AttendanceRecord.Helper
                 }
                 if (strTime.Substring(1, 1) == ":")
                 {
-                    //如7:07 --> 07:07
+                    //转换 7:07 --> 07:07
                     strTime = "0" + strTime;
                 }
                 //判断长度是否可以被5整除
                 if (strTime.Length % 5 != 0)
                 {
                     outTimeStrList = timeStrList;
-                    msg.Msg = "有打开时间字符串长度不能被5整除！";
+                    msg.Msg = "时间字符串长度不能被5整除！";
                     return msg;
                 }
                 for (int i = 0; i <= strTime.Length / 5 - 1; i++)

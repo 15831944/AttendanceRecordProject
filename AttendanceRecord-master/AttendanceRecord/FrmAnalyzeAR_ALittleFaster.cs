@@ -171,7 +171,7 @@ namespace AttendanceRecord
                 wSheet.Cells[3, 10] = "制表时间";
                 wSheet.Cells[3, 12] = aR_Properties.Tabulation_date;
                 #endregion
-                List<int> dayList = V_AR_DETAIL.getMonthAL_By_YAndM(YearAndMonthStr);
+                List<int> dayList = V_AR_DETAIL.getDayListOfTheSpecificMonth(YearAndMonthStr);
                 //需要统计有多少人。
                 int total_num_of_AttendanceR = AttendanceR.get_Total_Num_Of_Staffs_By_YAndM(YearAndMonthStr);
                 pb.Value = 0;
@@ -402,7 +402,7 @@ namespace AttendanceRecord
                 //xlsFilePath = xlsFilePath.Remove(index) + _fileName;
                 MyExcel myExcel = new MyExcel(xlsFilePath);
                 myExcel.create();
-                myExcel.open();
+                myExcel.openWithoutAlerts();
                 //追加Hwnd到队列中.
                 hwndOfXls_Queue.Enqueue(myExcel.HwndOfApp);
                 MSG msg = new MSG();

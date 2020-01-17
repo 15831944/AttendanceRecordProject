@@ -112,10 +112,10 @@ namespace AttendanceRecord.View
         public static int getARNumByAMFlag_YearAndMonth(string Attendance_Machine_Flag, string Year_And_Month_Str)
         {
             string sqlStr = string.Format(@"SELECT 1
-                                              FROM Attendance_Record_Briefly ARBriefly
+                                              FROM Attendance_Record_Final ARFinal
                                               WHERE SubStr(job_number,1,1) in ({0})
-                                                AND TRUNC(ARBriefly.Finger_print_Date,'MM') = TO_DATE('{1}','YYYY-MM')
-                                                    GROUP BY ARBriefly.JOB_NUMBER",
+                                                AND TRUNC(ARFinal.Finger_print_Date,'MM') = TO_DATE('{1}','YYYY-MM')
+                                                    GROUP BY ARFinal.JOB_NUMBER",
                                                    Attendance_Machine_Flag,
                                                    Year_And_Month_Str);
             return OracleDaoHelper.getDTBySql(sqlStr).Rows.Count;
@@ -183,12 +183,12 @@ namespace AttendanceRecord.View
                                                     Temp.End_Date,
                                                     Temp.Tabulation_Date
                                             FROM 
-                                            (SELECT TO_CHAR(ARBriefly.start_Date,'YYYY-MM-DD') Start_Date,
-                                                    TO_CHAR(ARBriefly.end_Date,'YYYY-MM-DD') End_Date,
-                                                    TO_Char(ARBriefly.tabulation_Time,'YYYY-MM-DD') Tabulation_Date,
+                                            (SELECT TO_CHAR(ARFinal.start_Date,'YYYY-MM-DD') Start_Date,
+                                                    TO_CHAR(ARFinal.end_Date,'YYYY-MM-DD') End_Date,
+                                                    TO_Char(ARFinal.tabulation_Time,'YYYY-MM-DD') Tabulation_Date,
                                                     rowNum row_num
-                                              FROM Attendance_Record_Briefly ARBriefly
-                                              WHERE TRUNC(ARBriefly.Finger_print_Date,'MM') = TO_DATE('{0}','YYYY-MM')
+                                              FROM Attendance_Record_Final ARFinal
+                                              WHERE TRUNC(ARFinal.Finger_print_Date,'MM') = TO_DATE('{0}','YYYY-MM')
                                                 ) TEMP
                                                 WHERE Temp.row_num = 1",
                                                 Year_And_Month_Str);

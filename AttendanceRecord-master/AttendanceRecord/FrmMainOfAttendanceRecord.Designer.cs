@@ -73,14 +73,11 @@
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
             this.mStrip = new System.Windows.Forms.MenuStrip();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.importARToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.halfPastEightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.AskForLeave_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.setTheDaysOfOverTimeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.SetTheDaysOfAskForLeaveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ExportARSummaryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.FillUpARToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.QuerySpecificDayAR_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ARCalculate_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.UploadARToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importARStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.cmStrip.SuspendLayout();
             this.mStrip.SuspendLayout();
             this.SuspendLayout();
@@ -378,82 +375,57 @@
             // mStrip
             // 
             this.mStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem1});
+            this.importARStripMenuItem1,
+            this.setTheDaysOfOverTimeToolStripMenuItem,
+            this.SetTheDaysOfAskForLeaveToolStripMenuItem,
+            this.ExportARSummaryToolStripMenuItem});
             this.mStrip.Location = new System.Drawing.Point(0, 0);
             this.mStrip.Name = "mStrip";
             this.mStrip.Size = new System.Drawing.Size(1337, 29);
             this.mStrip.TabIndex = 7;
             this.mStrip.Text = "menuStrip1";
             // 
-            // toolStripMenuItem1
+            // setTheDaysOfOverTimeToolStripMenuItem
             // 
-            this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.importARToolStripMenuItem,
-            this.halfPastEightToolStripMenuItem,
-            this.AskForLeave_ToolStripMenuItem,
-            this.FillUpARToolStripMenuItem,
-            this.QuerySpecificDayAR_ToolStripMenuItem,
-            this.ARCalculate_ToolStripMenuItem,
-            this.UploadARToolStripMenuItem});
-            this.toolStripMenuItem1.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(106, 25);
-            this.toolStripMenuItem1.Text = "考勤记录";
+            this.setTheDaysOfOverTimeToolStripMenuItem.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.setTheDaysOfOverTimeToolStripMenuItem.Name = "setTheDaysOfOverTimeToolStripMenuItem";
+            this.setTheDaysOfOverTimeToolStripMenuItem.Size = new System.Drawing.Size(127, 25);
+            this.setTheDaysOfOverTimeToolStripMenuItem.Text = "设定加班日";
+            this.setTheDaysOfOverTimeToolStripMenuItem.Click += new System.EventHandler(this.setTheDaysOfOverTimeToolStripMenuItem_Click);
             // 
-            // importARToolStripMenuItem
+            // SetTheDaysOfAskForLeaveToolStripMenuItem
             // 
-            this.importARToolStripMenuItem.Name = "importARToolStripMenuItem";
-            this.importARToolStripMenuItem.Size = new System.Drawing.Size(206, 26);
-            this.importARToolStripMenuItem.Text = "导入";
-            this.importARToolStripMenuItem.Click += new System.EventHandler(this.importARToolStripMenuItem_Click);
+            this.SetTheDaysOfAskForLeaveToolStripMenuItem.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.SetTheDaysOfAskForLeaveToolStripMenuItem.Name = "SetTheDaysOfAskForLeaveToolStripMenuItem";
+            this.SetTheDaysOfAskForLeaveToolStripMenuItem.Size = new System.Drawing.Size(148, 25);
+            this.SetTheDaysOfAskForLeaveToolStripMenuItem.Text = "设置请假记录";
+            this.SetTheDaysOfAskForLeaveToolStripMenuItem.Click += new System.EventHandler(this.SetTheDaysOfAskForLeaveToolStripMenuItem_Click);
             // 
-            // halfPastEightToolStripMenuItem
+            // ExportARSummaryToolStripMenuItem
             // 
-            this.halfPastEightToolStripMenuItem.Enabled = false;
-            this.halfPastEightToolStripMenuItem.Name = "halfPastEightToolStripMenuItem";
-            this.halfPastEightToolStripMenuItem.Size = new System.Drawing.Size(206, 26);
-            this.halfPastEightToolStripMenuItem.Text = "8:30";
-            this.halfPastEightToolStripMenuItem.Visible = false;
-            this.halfPastEightToolStripMenuItem.Click += new System.EventHandler(this.halfPastEightToolStripMenuItem_Click);
-            // 
-            // AskForLeave_ToolStripMenuItem
-            // 
-            this.AskForLeave_ToolStripMenuItem.Enabled = false;
-            this.AskForLeave_ToolStripMenuItem.Name = "AskForLeave_ToolStripMenuItem";
-            this.AskForLeave_ToolStripMenuItem.Size = new System.Drawing.Size(206, 26);
-            this.AskForLeave_ToolStripMenuItem.Text = "请假";
-            this.AskForLeave_ToolStripMenuItem.Visible = false;
-            this.AskForLeave_ToolStripMenuItem.Click += new System.EventHandler(this.AskForLeaveToolStripMenuItem_Click);
+            this.ExportARSummaryToolStripMenuItem.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.ExportARSummaryToolStripMenuItem.Name = "ExportARSummaryToolStripMenuItem";
+            this.ExportARSummaryToolStripMenuItem.Size = new System.Drawing.Size(224, 25);
+            this.ExportARSummaryToolStripMenuItem.Text = "导出考勤汇总Excel档";
+            this.ExportARSummaryToolStripMenuItem.Click += new System.EventHandler(this.ExportARSummaryToolStripMenuItem_Click);
             // 
             // FillUpARToolStripMenuItem
             // 
             this.FillUpARToolStripMenuItem.Name = "FillUpARToolStripMenuItem";
-            this.FillUpARToolStripMenuItem.Size = new System.Drawing.Size(206, 26);
+            this.FillUpARToolStripMenuItem.Size = new System.Drawing.Size(180, 26);
             this.FillUpARToolStripMenuItem.Text = "补卡";
+            this.FillUpARToolStripMenuItem.Visible = false;
             this.FillUpARToolStripMenuItem.Click += new System.EventHandler(this.FillUpARToolStripMenuItem_Click);
             // 
-            // QuerySpecificDayAR_ToolStripMenuItem
+            // importARStripMenuItem1
             // 
-            this.QuerySpecificDayAR_ToolStripMenuItem.Name = "QuerySpecificDayAR_ToolStripMenuItem";
-            this.QuerySpecificDayAR_ToolStripMenuItem.Size = new System.Drawing.Size(206, 26);
-            this.QuerySpecificDayAR_ToolStripMenuItem.Text = "查询当日出勤";
-            this.QuerySpecificDayAR_ToolStripMenuItem.Click += new System.EventHandler(this.QuerySpecificDayAR_ToolStripMenuItem_Click);
-            // 
-            // ARCalculate_ToolStripMenuItem
-            // 
-            this.ARCalculate_ToolStripMenuItem.Name = "ARCalculate_ToolStripMenuItem";
-            this.ARCalculate_ToolStripMenuItem.Size = new System.Drawing.Size(206, 26);
-            this.ARCalculate_ToolStripMenuItem.Text = "考勤记录计算";
-            this.ARCalculate_ToolStripMenuItem.Click += new System.EventHandler(this.ARCalculate_ToolStripMenuItem_Click);
-            // 
-            // UploadARToolStripMenuItem
-            // 
-            this.UploadARToolStripMenuItem.Enabled = false;
-            this.UploadARToolStripMenuItem.Name = "UploadARToolStripMenuItem";
-            this.UploadARToolStripMenuItem.Size = new System.Drawing.Size(206, 26);
-            this.UploadARToolStripMenuItem.Text = "上传考勤记录";
-            this.UploadARToolStripMenuItem.Visible = false;
-            this.UploadARToolStripMenuItem.Click += new System.EventHandler(this.UploadARToolStripMenuItem_Click);
+            this.importARStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.FillUpARToolStripMenuItem});
+            this.importARStripMenuItem1.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.importARStripMenuItem1.Name = "importARStripMenuItem1";
+            this.importARStripMenuItem1.Size = new System.Drawing.Size(182, 25);
+            this.importARStripMenuItem1.Text = "导入考勤Excel档";
+            this.importARStripMenuItem1.Click += new System.EventHandler(this.importARToolStripMenuItem_Click);
             // 
             // FrmMainOfAttendanceRecord
             // 
@@ -465,7 +437,7 @@
             this.Name = "FrmMainOfAttendanceRecord";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "考勤记录";
+            this.Text = "考勤记录汇总";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FrmMainOfAttendanceRecord_FormClosed);
             this.Load += new System.EventHandler(this.FrmMainOfAttendanceRecord_Load);
@@ -523,15 +495,12 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
         private System.Windows.Forms.MenuStrip mStrip;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem importARToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem halfPastEightToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem AskForLeave_ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem QuerySpecificDayAR_ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem ARCalculate_ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem FillUpARToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem UploadARToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 显示上传进度ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem setTheDaysOfOverTimeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem SetTheDaysOfAskForLeaveToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ExportARSummaryToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem importARStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem FillUpARToolStripMenuItem;
         #endregion
 
         /*

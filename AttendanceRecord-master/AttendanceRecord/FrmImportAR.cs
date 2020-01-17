@@ -1,7 +1,7 @@
 ﻿using AttendanceRecord.Entities;
 using AttendanceRecord.Helper;
 using Excel;
-using Microsoft.Office.Interop.Excel;
+using Microsoft.Office.Core;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,7 +13,7 @@ using System.Windows.Forms;
 using Tools;
 using System.IO;
 using System.Threading;
-
+using Microsoft.Office.Interop.Excel;
 namespace AttendanceRecord
 {
     public partial class FrmImportAR : Form
@@ -101,9 +101,9 @@ namespace AttendanceRecord
         public FrmImportAR()
         {
             InitializeComponent();
-            readDataFromExcelBGWorker.DoWork += DoWork_Handler;
+            readDataFromExcelBGWorker.DoWork += readDataFromExcelBGWorker_DoWork_Handler;
             readDataFromExcelBGWorker.ProgressChanged += ProcessChanged_Handler;
-            readDataFromExcelBGWorker.RunWorkerCompleted += RunWorkerCompleted_Handler;
+            readDataFromExcelBGWorker.RunWorkerCompleted += readDataFromExcelBGWorker_RunWorkerCompleted_Handler;
             readDataFromExcelBGWorker.WorkerReportsProgress = true;
             checkNameBGWorker.DoWork += CheckName_DoWork_Handler;
             checkNameBGWorker.ProgressChanged += ProcessChanged_Handler;
@@ -116,11 +116,16 @@ namespace AttendanceRecord
             pb.Visible = false;
             doNextAfterCheckName();
         }
+        /// <summary>
+        /// 检查姓名
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CheckName_DoWork_Handler(object sender, DoWorkEventArgs e)
         {
             saveCriticalARInfo(xlsFilePathList);
         }
-        private void RunWorkerCompleted_Handler(object sender, RunWorkerCompletedEventArgs e)
+        private void readDataFromExcelBGWorker_RunWorkerCompleted_Handler(object sender, RunWorkerCompletedEventArgs e)
         {
             V_Summary_OF_AR.generateAttendanceRecordBriefly(AttendanceRecordDetail._start_date.Substring(0, 7));
             //加载导入的数据。
@@ -186,7 +191,7 @@ namespace AttendanceRecord
                 ShowResult.show(lblPrompt, pb, lblResult, msg.Msg, msg.Flag);
             }
         }
-        private void DoWork_Handler(object sender, DoWorkEventArgs e)
+        private void readDataFromExcelBGWorker_DoWork_Handler(object sender, DoWorkEventArgs e)
         {
             AttendanceRHelper.affectedCount = 0;
             foreach (string xlsFilePath in xlsFilePathList)
@@ -265,22 +270,22 @@ namespace AttendanceRecord
                 {
                     case 1:
                         _1th_my_excel = new MyExcel(xlsFilePathList[0]);
-                        _1th_my_excel.open();
+                        _1th_my_excel.openWithoutAlerts();
                         _1th_Sheet = _1th_my_excel.getFirstWorkSheetAfterOpen();
                         break;
                     case 2:
                         _2nd_my_excel = new MyExcel(xlsFilePathList[1]);
-                        _2nd_my_excel.open();
+                        _2nd_my_excel.openWithoutAlerts();
                         _2nd_Sheet = _2nd_my_excel.getFirstWorkSheetAfterOpen();
                         break;
                     case 3:
                         _3rd_my_excel = new MyExcel(xlsFilePathList[2]);
-                        _3rd_my_excel.open();
+                        _3rd_my_excel.openWithoutAlerts();
                         _3rd_Sheet = _3rd_my_excel.getFirstWorkSheetAfterOpen();
                         break;
                     case 4:
                         _4th_my_excel = new MyExcel(xlsFilePathList[3]);
-                        _4th_my_excel.open();
+                        _4th_my_excel.openWithoutAlerts();
                         _4th_Sheet = _4th_my_excel.getFirstWorkSheetAfterOpen();
                         break;
                 }
@@ -483,7 +488,7 @@ namespace AttendanceRecord
 
             //直接删除
             MyExcel myExcel = new MyExcel(xlsFilePath);
-            myExcel.open();
+            myExcel.openWithoutAlerts();
             Worksheet firstSheet = myExcel.getFirstWorkSheetAfterOpen();
             Usual_Excel_Helper uEHelperTemp = new Usual_Excel_Helper(firstSheet);
             string year_and_month_str = uEHelperTemp.getCellContentByRowAndColIndex(3, 3);
@@ -532,7 +537,7 @@ namespace AttendanceRecord
             {
                 //打开文档
                 MyExcel myExcel = new MyExcel(excelPath);
-                myExcel.open();
+                myExcel.openWithoutAlerts();
                 Worksheet firstWS = myExcel.getFirstWorkSheetAfterOpen();
                 string fileNameWithoutSuffix = DirectoryHelper.getFileNameWithoutSuffix(excelPath);
                 int checkedColIndex = 0;
@@ -686,7 +691,7 @@ namespace AttendanceRecord
                 string excelPath = xlsFilePathList[i];
                 //打开文档
                 MyExcel myExcel = new MyExcel(excelPath);
-                myExcel.open();
+                myExcel.openWithoutAlerts();
                 Worksheet firstWS = myExcel.getFirstWorkSheetAfterOpen();
                 //删除  时间后立即为空的行。
                 AttendanceRHelper.clearSheet(firstWS);
@@ -696,7 +701,6 @@ namespace AttendanceRecord
                 int rowMaxIndex = firstWS.UsedRange.Rows.Count;
                 int pbMaximum = rowMaxIndex - 4;
                 int pbValue = 0;
-                
                 //0: 表示 lblResult.Visible
                 checkNameBGWorker.ReportProgress(0, "lblResult.Visible");
                 checkNameBGWorker.ReportProgress(pbMaximum, "pb.Maximum");
@@ -718,6 +722,12 @@ namespace AttendanceRecord
                     ar_Temp.Row_Index = rowIndex;
                     ar_Temp.Job_number = uEHelper.getCellContentByRowAndColIndex(rowIndex, 3);
                     ar_Temp.Name = name;
+                    /// <summary>
+                    /// 保存 ATTENDANCE_MACHINE_FLAG,
+                    ///     row_index,
+                    ///     job_number,
+                    ///     name
+                    /// 至AR_Temp中
                     ar_Temp.saveRecord();
                     checkNameBGWorker.ReportProgress(pbValue++, "pb.Value");
                 }

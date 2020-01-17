@@ -44,7 +44,7 @@ namespace AttendanceRecord
             bool resultFlag = DownloadTheLatestApp.downloadTheLatestVersionAndInitConnStr();
             if (!resultFlag) return;
             //设置连接数据库字符串的值.
-            SetTheValueOfTheDatabaseConnStr.setTheValueOfTheConnStr();
+            SetTheValueOfTheDatabaseConnStr.setTheValueOfTheConnStr(out flag_open_mesSqlConn);
             doNext();
         }
         /// <summary>

@@ -41,6 +41,17 @@ namespace AttendanceRecord.Entities
         public AttendanceR(string name) {
             this._name = name;
         }
+        public List<string> getJNListByName() {
+            string sqlStr = string.Format(@"select distinct job_number from Attendance_record_final where name = '{0}' and trunc(finger_print_date,'MM')>= trunc(add_months(sysdate,-3),'MM')", _name);
+            DataTable dt = OracleDaoHelper.getDTBySql(sqlStr);
+            List<String> jNList = new List<String>();
+            for (int i = 0; i <= dt.Rows.Count - 1; i++) {
+                jNList.Add(dt.Rows[i]["job_number"].ToString());
+            }
+            return jNList;
+        }
+
+
         /*
         public string[] getJNByName() {
             string[] jNArray = { };
@@ -374,7 +385,7 @@ namespace AttendanceRecord.Entities
         #endregion
         public System.Data.DataTable getAR(string random_Str)
         {
-            string procedureName = "pkg_ar.get_ARDetail_By_Random_Str";
+            string procedureName = "pkg_ar.get_ARFinal_By_Random_Str";
             OracleParameter param_random_Str = new OracleParameter("v_random_str", OracleDbType.Varchar2, ParameterDirection.Input);
             OracleParameter param_Cur_AR = new OracleParameter("v_cur_ar", OracleDbType.RefCursor, ParameterDirection.ReturnValue);
             param_random_Str.Value = random_Str;
@@ -492,15 +503,9 @@ namespace AttendanceRecord.Entities
         /// <returns></returns>
         public static int get_AR_Days_Num(string Year_And_Month_Str)
         {
-            string sqlStr = string.Format(@"
-                                            SELECT COUNT(1)
-                                            FROM 
-                                            (
-                                               select ARBriefly.finger_print_date
-                                               from Attendance_Record_Briefly ARBriefly
-                                               where TRUNC(ARBriefly.finger_print_date,'MM') = To_DATE('{0}','yyyy-MM')
-                                               GROUP BY ARBriefly.finger_print_date
-                                            ) TEMP",
+            string sqlStr = string.Format(@"select count(distinct(ARFinal.finger_print_date))
+                                               from Attendance_Record_Final ARFinal
+                                               where TRUNC(ARFinal.finger_print_date,'MM') = To_DATE('{0}','yyyy-MM')",
                                        Year_And_Month_Str);
             int result = 0;
             int.TryParse(OracleDaoHelper.getDTBySql(sqlStr).Rows[0][0].ToString(), out result);
@@ -656,16 +661,10 @@ namespace AttendanceRecord.Entities
         /// <returns></returns>
         public static int get_Total_Num_Of_Staffs_By_YAndM_And_AMFlag(string attendance_machine_flag, string Year_And_Month_Str)
         {
-            string sqlStr = string.Format(@"
-                                            SELECT COUNT(1)
-                                            FROM 
-                                            (
-                                                select ARBriefly.JOB_NUMBER
-                                               from Attendance_Record_Briefly ARBriefly
-                                               where substr(job_number,1,1) in  ({0})
-                                               AND TRUNC(ARBriefly.Finger_print_Date,'MM') = To_DATE('{1}','yyyy-MM')
-                                               GROUP BY ARBriefly.JOB_NUMBER
-                                            ) TEMP",
+            string sqlStr = string.Format(@"select count(distinct(job_number))
+                                              from Attendance_Record_Final
+                                              where substr(job_number,1,1) in  ({0})
+                                              and trunc(finger_print_date,'MM') = to_date('{1}','yyyy-MM')",
                                             attendance_machine_flag,
                                             Year_And_Month_Str
                                             );

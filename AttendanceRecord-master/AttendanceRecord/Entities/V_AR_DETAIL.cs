@@ -341,19 +341,19 @@ namespace AttendanceRecord.Entities
             return dayList;
         }
         */
-        public static List<int> getMonthAL_By_YAndM(string YearAndMonthStr)
+        public static List<int> getDayListOfTheSpecificMonth(string YearAndMonthStr)
         {
-            string sqlStr = String.Format(@"select DISTINCT(SUBSTR(TO_CHAR(v_aR_D.finger_print_date,'YYYY-MM-DD'),9,2)) AS  Day
-                                           from v_ar_detail v_aR_D
-                                           WHERE TRUNC(v_aR_D.finger_print_date,'MM') = To_DATE('{0}','yyyy-MM')
-                                            ORDER BY day",
+            string sqlStr = String.Format(@"select distinct(to_char(finger_print_date,'DD')) day_str
+                                              from Attendance_Record_Final
+                                              where trunc(finger_print_date,'MM') = to_date('{0}','yyyy-MM')
+                                              order by day_str asc",
                                             YearAndMonthStr
                                            );
             DataTable dt = OracleDaoHelper.getDTBySql(sqlStr);
             List<int> dayList = new List<int>();
             for (int j = 0; j <= dt.Rows.Count - 1; j++)
             {
-                dayList.Add(int.Parse(dt.Rows[j]["Day"].ToString()));
+                dayList.Add(int.Parse(dt.Rows[j]["day_str"].ToString()));
             }
             return dayList;
         }
@@ -427,26 +427,18 @@ namespace AttendanceRecord.Entities
         /// <param name="attendance_machine_flag"></param>
         /// <param name="date"></param>
         /// <returns></returns>
-        public static List<V_AR_DETAIL> get_V_AR_Detail_By_Attendance_Machine_Flag_And_Specific_Day(string attendance_machine_flag, string date)
+        public static List<V_AR_DETAIL> get_V_AR_BaseInfo_By_Attendance_Machine_Flag_And_Specific_Month(string attendance_machine_flag, string year_month_str)
         {
-            /*string proceName = "PKG_AR_Detail.get_Staffs_BI_by_AMFlag_YMStr";
-            OracleParameter param__attendance_machine_flag = new OracleParameter("v_attendance_machine_flag", OracleDbType.Varchar2, ParameterDirection.Input);
-            OracleParameter param_date_str = new OracleParameter("v_year_and_month_str", OracleDbType.Varchar2, ParameterDirection.Input);
-            OracleParameter param_cur_result = new OracleParameter("v_cur_result", OracleDbType.RefCursor, ParameterDirection.ReturnValue);
-            param__attendance_machine_flag.Value = attendance_machine_flag;
-            param_date_str.Value = date;
-            param_date_str.Size = 20;
-            OracleParameter[] parameters = new OracleParameter[3] { param_cur_result, param__attendance_machine_flag, param_date_str };
-            OracleHelper oH = OracleHelper.getBaseDao();
-            DataTable dt = oH.getDT(proceName, parameters);
-            */
-            string sqlStr = string.Format(@"select distinct dept,job_number,name
-                                                from Attendance_Record_Briefly ARBriefly
+            string sqlStr = string.Format(@"select 
+                                                distinct dept,
+                                                    job_number,
+                                                    name
+                                                from Attendance_Record_Final
                                                 where substr(job_number,1,1) in ({0})
                                                 and trunc(finger_print_date,'MM') = to_date('{1}','yyyy-MM')
                                                 order by job_number asc",
                                                 attendance_machine_flag,
-                                                date);
+                                                year_month_str);
             System.Data.DataTable dt = OracleDaoHelper.getDTBySql(sqlStr);
             return ConvertHelper<V_AR_DETAIL>.ConvertToList(dt);
         }

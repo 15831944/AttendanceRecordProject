@@ -16,7 +16,6 @@ namespace AttendanceRecord.Helper
         private string _startTime;
         private string _endTime;
         private string _NO;     //业务单据号.
-
         public ASK_For_Leave_Helper(string name, string startTime, string endTime,string NO)
         {
             this._name = name;
@@ -80,21 +79,31 @@ namespace AttendanceRecord.Helper
         }
         #endregion
         #region 获取所有请假条信息
-        public static DataTable getAllVacationList() {
-            string sqlStr = String.Format(@"select 
-                                                emps.job_number AS ""工号"", 
-                                                emps.name AS ""姓名"",
-                                                a_f_l.leave_start_time AS ""起始时间"", 
-                                                a_f_l.leave_end_time AS ""终止时间"", 
-                                                a_f_l.record_time AS ""记录时间"", 
-                                                a_f_l.no AS ""单号""
-                                            from ask_for_leave a_f_l 
-                                                inner join employees emps
-                                                on a_f_l.job_number = emps.job_number
-                                            order by a_f_l.seq desc");
+        public static DataTable getAllVacationListLastThreeMonths() {
+            string sqlStr = String.Format(@"select job_number as ""工号"",
+                                                     name as ""姓名"",
+                                                     to_char(leave_date,'yyyy-MM-dd') ""请假日期"",
+                                                     to_char(leave_start_time,'yyyy-MM-dd HH24:MI')  as ""起始时间"",
+                                                     to_char(leave_end_time,'yyyy-MM-dd HH24:MI') as ""终止时间""
+                                              from Ask_For_Leave
+                                              where trunc(leave_date,'MM') >= TRUNC(ADD_MONTHS(sysdate,-3),'MM')
+                                                order by NLSSORT(name,'NLS_SORT= SCHINESE_PINYIN_M') ASC,
+                                                leave_date asc");
             return OracleDaoHelper.getDTBySql(sqlStr);
         }
         #endregion
+        public static DataTable getAllVacationListByNameAndDate(string name)
+        {
+            string sqlStr = String.Format(@"select job_number as ""工号"",
+                                                     name as ""姓名"",
+                                                     to_char(leave_date,'yyyy-MM-dd') ""请假日期"",
+                                                     to_char(leave_start_time,'yyyy-MM-dd HH24:MI')  ""离开时间"",
+                                                     to_char(leave_end_time,'yyyy-MM-dd HH24:MI') ""终止时间""
+                                              from Ask_For_Leave
+                                              where name = '{0}'
+                                              order by leave_date desc", name);
+            return OracleDaoHelper.getDTBySql(sqlStr);
+        }
         #region 获取请假条的单号。
         public static string getLastedNO() {
             string sqlStr = String.Format(@"select 
@@ -121,11 +130,20 @@ namespace AttendanceRecord.Helper
                                             SELECT 1 
                                             FROM ASK_FOR_LEAVE A_F_L
                                             WHERE A_F_L.name = '{0}' 
-                                            AND TRUNC(TO_DATE('{1}','yyyy-MM-dd hh24:mi:ss'),'DD') = TRUNC(Leave_start_time) 
+                                            AND TRUNC(TO_DATE('{1}','yyyy-MM-dd hh24:mi'),'DD') = TRUNC(Leave_start_time,'DD') 
                                             ",
                                             this._name,
                                             this._startTime);
             return OracleDaoHelper.getDTBySql(sqlStr).Rows.Count > 0 ? true : false;
+        }
+        #endregion
+        #region 判断是否已经设定了休息日。
+        private bool ifConfigRestDay(string year_and_month_str) {
+            string sqlStr = string.Format(@"SELECT 1 
+                                            FROM Rest_Day
+                                            WHERE trunc(rest_day,'MM') = to_date('{0}','yyyy-MM')", year_and_month_str);
+            DataTable dt = OracleDaoHelper.getDTBySql(sqlStr);
+            return dt.Rows.Count > 0 ? true : false;
         }
         #endregion
         #region 判断此请假范围是否有休息日.人数小于99人,即被认为是休息日.
@@ -143,6 +161,14 @@ namespace AttendanceRecord.Helper
                                               );
             result = OracleDaoHelper.getDTBySql(sqlStr).Rows.Count > 0 ? true : false;
             return result;
+        }
+        internal static void delByNameAndMonth(string name, string year_month_day_str)
+        {
+            string sqlStr = string.Format(@"DELETE 
+                                            FROM ASK_FOR_LEAVE 
+                                            WHERE Name = '{0}' 
+                                            AND Leave_date = to_date('{1}','yyyy-MM-dd')",name,year_month_day_str);
+            OracleDaoHelper.executeSQL(sqlStr);
         }
         #endregion
     }

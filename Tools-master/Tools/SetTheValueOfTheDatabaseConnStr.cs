@@ -34,7 +34,7 @@ namespace Tools
         ///  OracleDaoHelper,SqlDaoHelper 数据库的连接字符串赋值
         /// </summary>
         /// <returns></returns>
-        public static bool setTheValueOfTheConnStr()
+        public static bool setTheValueOfTheConnStr(out bool flag_open_mesSqlConn)
         {
             #region 数据库联接测试。
             string host_Name = XmlFlexflow.ReadXmlNodeValue("SERVER_NAME");
@@ -51,6 +51,7 @@ namespace Tools
             if (!ConnectByPing.pingTheAddress(mes_host_Name))
             {
                 MessageBox.Show("与" + host_Name + " 连接失败!", "提示: ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                flag_open_mesSqlConn = false;
                 return false;
             }
             #endregion
@@ -63,12 +64,14 @@ namespace Tools
                 sqlConn.Open();
                 sqlConn.Close();
                 sqlConn.Dispose();
+                flag_open_mesSqlConn = true;
                 return true;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
                 MessageBox.Show("基于MES_制卡系统中的所属部门，组将无法获取");
+                flag_open_mesSqlConn = false;
                 return false;
             }
         }
