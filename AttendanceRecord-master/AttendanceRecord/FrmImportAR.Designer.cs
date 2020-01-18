@@ -34,7 +34,6 @@
             this.btnImportEmpsInfo = new System.Windows.Forms.Button();
             this.timerRestoreTheLblResult = new System.Windows.Forms.Timer(this.components);
             this.btnViewTheUncertaiRecordInExcel = new System.Windows.Forms.Button();
-            this.cbCheckSameNamesButDifferentMachineNo = new System.Windows.Forms.CheckBox();
             this.lblPrompt = new System.Windows.Forms.Label();
             this.pb = new System.Windows.Forms.ProgressBar();
             this.dgv = new System.Windows.Forms.DataGridView();
@@ -82,26 +81,13 @@
             // 
             this.btnViewTheUncertaiRecordInExcel.Enabled = false;
             this.btnViewTheUncertaiRecordInExcel.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnViewTheUncertaiRecordInExcel.Location = new System.Drawing.Point(1088, 174);
+            this.btnViewTheUncertaiRecordInExcel.Location = new System.Drawing.Point(1019, 174);
             this.btnViewTheUncertaiRecordInExcel.Name = "btnViewTheUncertaiRecordInExcel";
-            this.btnViewTheUncertaiRecordInExcel.Size = new System.Drawing.Size(233, 38);
+            this.btnViewTheUncertaiRecordInExcel.Size = new System.Drawing.Size(302, 38);
             this.btnViewTheUncertaiRecordInExcel.TabIndex = 19;
-            this.btnViewTheUncertaiRecordInExcel.Text = "查看同名记录";
+            this.btnViewTheUncertaiRecordInExcel.Text = "姓名拼音相同但书写不同";
             this.btnViewTheUncertaiRecordInExcel.UseVisualStyleBackColor = true;
             this.btnViewTheUncertaiRecordInExcel.Click += new System.EventHandler(this.btnViewTheUncertaiRecordInExcel_Click);
-            // 
-            // cbCheckSameNamesButDifferentMachineNo
-            // 
-            this.cbCheckSameNamesButDifferentMachineNo.AutoSize = true;
-            this.cbCheckSameNamesButDifferentMachineNo.Checked = true;
-            this.cbCheckSameNamesButDifferentMachineNo.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbCheckSameNamesButDifferentMachineNo.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.cbCheckSameNamesButDifferentMachineNo.Location = new System.Drawing.Point(744, 183);
-            this.cbCheckSameNamesButDifferentMachineNo.Name = "cbCheckSameNamesButDifferentMachineNo";
-            this.cbCheckSameNamesButDifferentMachineNo.Size = new System.Drawing.Size(323, 25);
-            this.cbCheckSameNamesButDifferentMachineNo.TabIndex = 18;
-            this.cbCheckSameNamesButDifferentMachineNo.Text = "检查姓名拼音相同或同名的用户";
-            this.cbCheckSameNamesButDifferentMachineNo.UseVisualStyleBackColor = true;
             // 
             // lblPrompt
             // 
@@ -132,7 +118,7 @@
             this.dgv.Location = new System.Drawing.Point(48, 230);
             this.dgv.Name = "dgv";
             this.dgv.RowTemplate.Height = 23;
-            this.dgv.Size = new System.Drawing.Size(1273, 520);
+            this.dgv.Size = new System.Drawing.Size(1273, 528);
             this.dgv.TabIndex = 14;
             // 
             // FrmImportAR
@@ -146,7 +132,6 @@
             this.Controls.Add(this.tb);
             this.Controls.Add(this.btnImportEmpsInfo);
             this.Controls.Add(this.btnViewTheUncertaiRecordInExcel);
-            this.Controls.Add(this.cbCheckSameNamesButDifferentMachineNo);
             this.Controls.Add(this.lblPrompt);
             this.Controls.Add(this.pb);
             this.Name = "FrmImportAR";
@@ -165,7 +150,6 @@
         private System.Windows.Forms.Button btnImportEmpsInfo;
         private System.Windows.Forms.Timer timerRestoreTheLblResult;
         private System.Windows.Forms.Button btnViewTheUncertaiRecordInExcel;
-        private System.Windows.Forms.CheckBox cbCheckSameNamesButDifferentMachineNo;
         private System.Windows.Forms.Label lblPrompt;
         private System.Windows.Forms.ProgressBar pb;
         private System.Windows.Forms.DataGridView dgv;

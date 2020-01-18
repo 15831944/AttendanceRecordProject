@@ -52,7 +52,8 @@ namespace AttendanceRecord
         /// <param name="e"></param>
         private void FrmMainOfAttendanceRecord_Load(object sender, EventArgs e)
         {
-            this.Text += " " + Application.ProductVersion;
+            //this.Text += " " + Application.ProductVersion;
+            this.Text += " 1.28"; 
             this.lblUserName.Text = Program._userInfo.Department + "   " + Program._userInfo.User_Name; ;
             this.lblUserName.BackColor = this.mStrip.BackColor;
             nfiSystem.Text = "杜克普考勤软件：" + Application.ProductVersion;

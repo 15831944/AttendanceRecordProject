@@ -34,7 +34,6 @@
             this.delToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lblResult = new System.Windows.Forms.Label();
             this.timerRestoreTheLblResult = new System.Windows.Forms.Timer(this.components);
-            this.btnGenerateDefaultRestDays = new System.Windows.Forms.Button();
             this.mCalendar = new System.Windows.Forms.MonthCalendar();
             this.btnAdd = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
@@ -47,13 +46,13 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv.ContextMenuStrip = this.cms;
-            this.dgv.Location = new System.Drawing.Point(32, 407);
+            this.dgv.Location = new System.Drawing.Point(36, 329);
             this.dgv.MultiSelect = false;
             this.dgv.Name = "dgv";
             this.dgv.ReadOnly = true;
             this.dgv.RowTemplate.Height = 23;
             this.dgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgv.Size = new System.Drawing.Size(1267, 312);
+            this.dgv.Size = new System.Drawing.Size(1267, 268);
             this.dgv.TabIndex = 2;
             // 
             // cms
@@ -61,12 +60,12 @@
             this.cms.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.delToolStripMenuItem});
             this.cms.Name = "cms";
-            this.cms.Size = new System.Drawing.Size(95, 26);
+            this.cms.Size = new System.Drawing.Size(101, 26);
             // 
             // delToolStripMenuItem
             // 
             this.delToolStripMenuItem.Name = "delToolStripMenuItem";
-            this.delToolStripMenuItem.Size = new System.Drawing.Size(94, 22);
+            this.delToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
             this.delToolStripMenuItem.Text = "删除";
             this.delToolStripMenuItem.Click += new System.EventHandler(this.delToolStripMenuItem_Click);
             // 
@@ -74,9 +73,9 @@
             // 
             this.lblResult.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblResult.Location = new System.Drawing.Point(32, 742);
+            this.lblResult.Location = new System.Drawing.Point(36, 626);
             this.lblResult.Name = "lblResult";
-            this.lblResult.Size = new System.Drawing.Size(1267, 49);
+            this.lblResult.Size = new System.Drawing.Size(1263, 40);
             this.lblResult.TabIndex = 3;
             // 
             // timerRestoreTheLblResult
@@ -84,31 +83,19 @@
             this.timerRestoreTheLblResult.Interval = 7000;
             this.timerRestoreTheLblResult.Tick += new System.EventHandler(this.timerRestoreTheLblResult_Tick);
             // 
-            // btnGenerateDefaultRestDays
-            // 
-            this.btnGenerateDefaultRestDays.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnGenerateDefaultRestDays.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnGenerateDefaultRestDays.Location = new System.Drawing.Point(1103, 254);
-            this.btnGenerateDefaultRestDays.Name = "btnGenerateDefaultRestDays";
-            this.btnGenerateDefaultRestDays.Size = new System.Drawing.Size(196, 52);
-            this.btnGenerateDefaultRestDays.TabIndex = 10;
-            this.btnGenerateDefaultRestDays.Text = "生成默认的加班日";
-            this.btnGenerateDefaultRestDays.UseVisualStyleBackColor = false;
-            this.btnGenerateDefaultRestDays.Visible = false;
-            this.btnGenerateDefaultRestDays.Click += new System.EventHandler(this.btnGenerateDefaultRestDays_Click);
-            // 
             // mCalendar
             // 
-            this.mCalendar.Location = new System.Drawing.Point(36, 63);
+            this.mCalendar.Location = new System.Drawing.Point(36, 107);
             this.mCalendar.Name = "mCalendar";
             this.mCalendar.TabIndex = 11;
             this.mCalendar.DateChanged += new System.Windows.Forms.DateRangeEventHandler(this.mCalendar_DateChanged);
             // 
             // btnAdd
             // 
+            this.btnAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAdd.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.btnAdd.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnAdd.Location = new System.Drawing.Point(1141, 339);
+            this.btnAdd.Location = new System.Drawing.Point(1145, 235);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(158, 52);
             this.btnAdd.TabIndex = 12;
@@ -121,10 +108,9 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SkyBlue;
-            this.ClientSize = new System.Drawing.Size(1334, 803);
+            this.ClientSize = new System.Drawing.Size(1334, 675);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.mCalendar);
-            this.Controls.Add(this.btnGenerateDefaultRestDays);
             this.Controls.Add(this.lblResult);
             this.Controls.Add(this.dgv);
             this.Font = new System.Drawing.Font("宋体", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -144,7 +130,6 @@
         private System.Windows.Forms.DataGridView dgv;
         private System.Windows.Forms.Label lblResult;
         private System.Windows.Forms.Timer timerRestoreTheLblResult;
-        private System.Windows.Forms.Button btnGenerateDefaultRestDays;
         private System.Windows.Forms.MonthCalendar mCalendar;
         private System.Windows.Forms.ContextMenuStrip cms;
         private System.Windows.Forms.ToolStripMenuItem delToolStripMenuItem;

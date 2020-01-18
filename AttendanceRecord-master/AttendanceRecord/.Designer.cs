@@ -58,7 +58,7 @@
             // 
             // lblResult
             // 
-            this.lblResult.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.lblResult.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblResult.Location = new System.Drawing.Point(32, 742);
             this.lblResult.Name = "lblResult";
@@ -73,6 +73,7 @@
             // 
             // pb
             // 
+            this.pb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.pb.Location = new System.Drawing.Point(300, 742);
             this.pb.Name = "pb";
             this.pb.Size = new System.Drawing.Size(998, 49);
@@ -81,20 +82,20 @@
             // 
             // btnExportARResult
             // 
+            this.btnExportARResult.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnExportARResult.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.btnExportARResult.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnExportARResult.Location = new System.Drawing.Point(1103, 270);
+            this.btnExportARResult.Location = new System.Drawing.Point(1102, 246);
             this.btnExportARResult.Name = "btnExportARResult";
-            this.btnExportARResult.Size = new System.Drawing.Size(196, 52);
+            this.btnExportARResult.Size = new System.Drawing.Size(196, 43);
             this.btnExportARResult.TabIndex = 8;
-            this.btnExportARResult.Text = "导出考勤记录";
+            this.btnExportARResult.Text = "考勤汇总导出";
             this.btnExportARResult.UseVisualStyleBackColor = false;
             this.btnExportARResult.Click += new System.EventHandler(this.btnExportARResult_Click);
             // 
             // lblPrompt
             // 
-            this.lblPrompt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblPrompt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblPrompt.Location = new System.Drawing.Point(28, 742);
             this.lblPrompt.Name = "lblPrompt";
             this.lblPrompt.Size = new System.Drawing.Size(264, 49);
@@ -105,7 +106,7 @@
             // 
             // mCalendar
             // 
-            this.mCalendar.Location = new System.Drawing.Point(36, 57);
+            this.mCalendar.Location = new System.Drawing.Point(32, 109);
             this.mCalendar.Name = "mCalendar";
             this.mCalendar.TabIndex = 7;
             this.mCalendar.DateChanged += new System.Windows.Forms.DateRangeEventHandler(this.mCalendar_DateChanged);
@@ -113,7 +114,7 @@
             // radioBtnSeparate
             // 
             this.radioBtnSeparate.AutoSize = true;
-            this.radioBtnSeparate.Location = new System.Drawing.Point(829, 301);
+            this.radioBtnSeparate.Location = new System.Drawing.Point(839, 268);
             this.radioBtnSeparate.Name = "radioBtnSeparate";
             this.radioBtnSeparate.Size = new System.Drawing.Size(103, 23);
             this.radioBtnSeparate.TabIndex = 10;
@@ -125,7 +126,7 @@
             // 
             this.radioBtnToAWholePiece.AutoSize = true;
             this.radioBtnToAWholePiece.Checked = true;
-            this.radioBtnToAWholePiece.Location = new System.Drawing.Point(954, 301);
+            this.radioBtnToAWholePiece.Location = new System.Drawing.Point(964, 268);
             this.radioBtnToAWholePiece.Name = "radioBtnToAWholePiece";
             this.radioBtnToAWholePiece.Size = new System.Drawing.Size(103, 23);
             this.radioBtnToAWholePiece.TabIndex = 11;
@@ -148,7 +149,7 @@
             // 
             this.cb_Attendance_Machine.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_Attendance_Machine.FormattingEnabled = true;
-            this.cb_Attendance_Machine.Location = new System.Drawing.Point(502, 295);
+            this.cb_Attendance_Machine.Location = new System.Drawing.Point(419, 262);
             this.cb_Attendance_Machine.Name = "cb_Attendance_Machine";
             this.cb_Attendance_Machine.Size = new System.Drawing.Size(131, 27);
             this.cb_Attendance_Machine.TabIndex = 12;
@@ -157,7 +158,7 @@
             // lbl_Attendance_Machine
             // 
             this.lbl_Attendance_Machine.AutoSize = true;
-            this.lbl_Attendance_Machine.Location = new System.Drawing.Point(382, 301);
+            this.lbl_Attendance_Machine.Location = new System.Drawing.Point(299, 268);
             this.lbl_Attendance_Machine.Name = "lbl_Attendance_Machine";
             this.lbl_Attendance_Machine.Size = new System.Drawing.Size(114, 19);
             this.lbl_Attendance_Machine.TabIndex = 13;
